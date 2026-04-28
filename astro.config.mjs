@@ -8,9 +8,10 @@ export default defineConfig({
     starlight({
       title: 'Triplox',
       logo: {
-        src: './src/assets/logo.png',
+        src: './src/assets/blocks_logo.svg',
         replacesTitle: false,
       },
+      customCss: ['./src/styles/colors.css'],
       social: [
         {
           icon: 'github',
