@@ -4,8 +4,6 @@ import starlightBlog from 'starlight-blog';
 import starlightThemeBlack from 'starlight-theme-black';
 
 export default defineConfig({
-  publicDir: './static',
-  outDir: './public',
   integrations: [
     starlight({
       title: 'Triplox',

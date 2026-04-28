@@ -23,7 +23,7 @@ Other useful scripts:
 
 | Command            | What it does                           |
 | ------------------ | -------------------------------------- |
-| `npm run build`    | Build the production site to `./public/` |
+| `npm run build`    | Build the production site to `./dist/` |
 | `npm run preview`  | Preview the production build locally   |
 | `npm run astro …`  | Run Astro CLI commands                 |
 
@@ -39,8 +39,7 @@ src/
       blog/                 blog posts (starlight-blog)
   content.config.ts         content collections config
 astro.config.mjs            Astro + Starlight config
-static/                     static files served as-is (publicDir)
-public/                     build output (outDir, gitignored)
+public/                     static files served as-is
 ```
 
 ## Customising the top-bar links
