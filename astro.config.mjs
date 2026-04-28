@@ -3,6 +3,8 @@ import { defineConfig } from 'astro/config';
 import starlightBlog from 'starlight-blog';
 import starlightThemeBlack from 'starlight-theme-black';
 
+import cloudflare from '@astrojs/cloudflare';
+
 export default defineConfig({
   integrations: [
     starlight({
@@ -43,4 +45,6 @@ export default defineConfig({
       ],
     }),
   ],
+
+  adapter: cloudflare(),
 });

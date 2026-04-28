@@ -8,15 +8,21 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate-types": "wrangler types"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^13.2.2",
     "@astrojs/starlight": "^0.38.4",
     "@fontsource/geist-mono": "^5.2.5",
     "@fontsource/geist-sans": "^5.2.5",
     "astro": "^6.1.10",
     "sharp": "^0.34.1",
     "starlight-blog": "^0.26.1",
-    "starlight-theme-black": "^0.6.0"
+    "starlight-theme-black": "^0.6.0",
+    "wrangler": "^4.86.0"
+  },
+  "overrides": {
+    "vite": "^7"
   }
 }
