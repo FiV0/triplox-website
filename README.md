@@ -42,6 +42,18 @@ astro.config.mjs            Astro + Starlight config
 public/                     static files served as-is
 ```
 
+## Deploying to Cloudflare Pages
+
+Build, then upload `dist/` directly with Wrangler:
+
+```sh
+npm run build
+npx wrangler pages deploy dist --project-name=triplox-website
+```
+
+The first run opens a browser to authenticate. Subsequent deploys reuse the
+saved credentials.
+
 ## Customising the top-bar links
 
 The header links — **Docs**, **Blog**, **GitHub**, **Discord** — are configured
