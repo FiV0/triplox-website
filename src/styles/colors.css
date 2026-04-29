@@ -93,6 +93,23 @@
   }
 }
 
+/* Splash hero tagline: enlarged. */
+.hero .tagline {
+  font-size: 1.5rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .hero .tagline {
+    font-size: 1.75rem;
+  }
+}
+
+/* Splash page: vertically center the entire content within the viewport. */
+main.main:has(.hero) {
+  justify-content: center;
+}
+
 /* Remove the thin separator lines between layout sections globally. */
 .container-wrapper {
   border-left: none !important;
