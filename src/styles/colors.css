@@ -2,10 +2,15 @@
   --color-grey: #f6f5f6;
   --color-orange: #f68e2c;
   --color-blue: #faf8f9;
+  --color-title-prefix: #4a4a4a;
+}
+
+[data-theme='dark'] {
+  --color-title-prefix: #ffffff;
 }
 
 /*
- * Header title: render "Trip" in grey + "lox" in orange.
+ * Header title: render "Trip" in grey/white + "lox" in orange.
  * starlight-theme-black hard-imports its own SiteTitle inside Header.astro,
  * which makes a normal Starlight `components.SiteTitle` override a no-op,
  * so we replace the rendered "Triplox" text with pseudo-elements instead.
@@ -16,7 +21,7 @@
 
 .site-title .title-text::before {
   content: 'Trip';
-  color: var(--color-grey);
+  color: var(--color-title-prefix);
   font-size: 1rem;
   font-weight: 700;
 }
