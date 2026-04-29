@@ -33,3 +33,17 @@
   font-weight: 700;
 }
 
+/* Remove the thin separator lines between layout sections globally. */
+.container-wrapper {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.layout__header {
+  border-bottom: none !important;
+}
+
+.container-section {
+  border-bottom: none !important;
+}
+
