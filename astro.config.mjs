@@ -16,12 +16,12 @@ export default defineConfig({
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/FiV0/triplox-website',
+          href: 'https://github.com/FiV0/triplox/',
         },
         {
           icon: 'discord',
           label: 'Discord',
-          href: 'https://discord.gg/your-invite',
+          href: 'https://discord.gg/CYaAYFwC',
         },
       ],
       plugins: [
