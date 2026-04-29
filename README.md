@@ -35,7 +35,8 @@ src/
   content/
     docs/
       index.mdx             landing page (splash hero)
-      getting-started.md    docs entry
+      getting-started/      docs entry section (introduction, quick-start)
+      <section>/            other docs sections (one folder per sidebar group)
       blog/                 blog posts (starlight-blog)
   content.config.ts         content collections config
 astro.config.mjs            Astro + Starlight config
@@ -53,14 +54,3 @@ npx wrangler pages deploy dist --project-name=triplox-website
 
 The first run opens a browser to authenticate. Subsequent deploys reuse the
 saved credentials.
-
-## Customising the top-bar links
-
-The header links — **Docs**, **Blog**, **GitHub**, **Discord** — are configured
-in `astro.config.mjs`:
-
-- **Docs** and **Blog** are text links via `starlightThemeBlack({ navLinks })`.
-- **GitHub** and **Discord** are icon links via Starlight's `social` option.
-
-The Discord URL in `astro.config.mjs` is a placeholder — update it to a real
-invite once one exists.

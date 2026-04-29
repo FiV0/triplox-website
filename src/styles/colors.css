@@ -33,6 +33,15 @@
   font-weight: 700;
 }
 
+/* Splash hero title styling: matches the header's "Trip" (theme-aware grey/white) + "lox" (orange). */
+.hero-trip {
+  color: var(--color-title-prefix);
+}
+
+.hero-lox {
+  color: var(--color-orange);
+}
+
 /* Remove the thin separator lines between layout sections globally. */
 .container-wrapper {
   border-left: none !important;

@@ -12,6 +12,9 @@ export default defineConfig({
         replacesTitle: false,
       },
       customCss: ['./src/styles/colors.css'],
+      components: {
+        Sidebar: './src/components/Sidebar.astro',
+      },
       social: [
         {
           icon: 'github',
@@ -27,18 +30,64 @@ export default defineConfig({
       plugins: [
         starlightThemeBlack({
           navLinks: [
-            { label: 'Docs', link: '/getting-started/' },
+            { label: 'Docs', link: '/getting-started/introduction/' },
             { label: 'Blog', link: '/blog/' },
           ],
           footerText: '',
         }),
-        starlightBlog(),
+        starlightBlog({ navigation: 'none' }),
       ],
       sidebar: [
         {
-          label: 'Start here',
+          label: 'Getting Started',
           items: [
-            { label: 'Getting started', slug: 'getting-started' },
+            { label: 'Introduction', slug: 'getting-started/introduction' },
+            { label: 'Quick Start', slug: 'getting-started/quick-start' },
+            { label: 'Architecture', slug: 'getting-started/architecture' },
+          ],
+        },
+        {
+          label: 'Data Model',
+          collapsed: true,
+          items: [
+            { label: 'Overview', slug: 'data-model/overview' },
+          ],
+        },
+        {
+          label: 'Transactions',
+          collapsed: true,
+          items: [
+            { label: 'Overview', slug: 'transactions/overview' },
+          ],
+        },
+        {
+          label: 'Query Language',
+          collapsed: true,
+          items: [
+            { label: 'Overview', slug: 'query-language/overview' },
+          ],
+        },
+        {
+          label: 'Streaming Queries',
+          collapsed: true,
+          items: [
+            { label: 'Overview', slug: 'streaming-queries/overview' },
+          ],
+        },
+        {
+          label: 'Operations',
+          collapsed: true,
+          items: [
+            { label: 'Overview', slug: 'operations/overview' },
+          ],
+        },
+        {
+          label: 'APIs',
+          collapsed: true,
+          items: [
+            { label: 'Clojure', slug: 'apis/clojure' },
+            { label: 'Rust', slug: 'apis/rust' },
+            { label: 'Java', slug: 'apis/java' },
           ],
         },
       ],
