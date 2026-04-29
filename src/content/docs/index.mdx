@@ -27,3 +27,27 @@ head:
     content: |
       .footer { display: none !important; }
 ---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs syncKey="lang">
+  <TabItem label="Rust">
+    ```rust
+    let conn = Triplox::connect("triplox://localhost").await?;
+    let result = conn.q("[?e ?a ?v]").await?;
+    ```
+  </TabItem>
+  <TabItem label="Clojure">
+    ```clojure
+    (def conn (triplox/connect "triplox://localhost"))
+    (triplox/q '[:find ?e ?a ?v :where [?e ?a ?v]] (triplox/db conn))
+    ```
+  </TabItem>
+  <TabItem label="Java">
+    ```java
+    var conn = Triplox.connect("triplox://localhost");
+    var result = conn.q("[?e ?a ?v]");
+    ```
+  </TabItem>
+</Tabs>
+
