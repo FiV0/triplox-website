@@ -42,6 +42,57 @@
   color: var(--color-orange);
 }
 
+/* Splash hero layout: logo beside text on tablet+, larger title. */
+@media (min-width: 768px) {
+  .hero {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 3rem;
+    row-gap: 1rem;
+    align-items: center;
+  }
+
+  .hero > img,
+  .hero > .hero-html {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    max-width: 18rem;
+    height: auto;
+  }
+
+  .hero > .title {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  .hero > .tagline,
+  .hero > .actions {
+    grid-column: 1 / -1;
+  }
+}
+
+.hero .title {
+  font-size: 3rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
+@media (min-width: 768px) {
+  .hero .title {
+    font-size: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero .title {
+    font-size: 5rem;
+  }
+}
+
 /* Remove the thin separator lines between layout sections globally. */
 .container-wrapper {
   border-left: none !important;
