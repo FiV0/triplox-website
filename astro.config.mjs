@@ -91,6 +91,15 @@ export default defineConfig({
             { label: 'Java', slug: 'apis/java' },
           ],
         },
+        {
+          label: 'Open Questions',
+          collapsed: true,
+          items: [
+            { label: 'Log', slug: 'open-questions/log' },
+            { label: 'Bag vs Set semantics', slug: 'open-questions/bag-vs-set-semantics' },
+            { label: 'Tx Pipeline', slug: 'open-questions/tx-pipeline' },
+          ],
+        },
       ],
     }),
   ],
