@@ -22,5 +22,5 @@ To further explore Triplox:
  - See [architecture](/getting-started/architecture) for an overview of the different parts of Triplox.
  - See [life of a Transaction](/transactions/life-of-a-transaction) to get an understanding how a transaction flows through a Triplox setup.
  - See [query language](/query-language/overview) to understand and learn the syntax for EDN Datalog queries.
- - See [APIs](/apis/clojure/) to have a look at the available language bindings. We currently support Clojure, Rust and Java. If you wish to create a new client, have a look at the [protocol doc](https://github.com/FiV0/triplox/blob/main/design/WIRE_PROTOCOL.md) in the repository.
+ - See [APIs](/apis/clojure/) to have a look at the available language bindings. We currently support Clojure, Rust and Java. If you wish to create a new client, have a look at the [protocol doc](https://github.com/FiV0/triplox/blob/main/design/PROTOCOL.md) in the repository.
  - Finally there are some [open questions](/open-questions/log) up for discussion. Feel free to join the [Discord](https://discord.gg/CYaAYFwC) or open a ticket in the [repo](https://github.com/FiV0/triplox/) if you have ideas or insights on those.
