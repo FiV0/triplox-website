@@ -58,7 +58,10 @@ export default defineConfig({
           label: 'Transactions',
           collapsed: true,
           items: [
-            { label: 'Overview', slug: 'transactions/overview' },
+            { label: 'Transaction Model', slug: 'transactions/transaction-model' },
+            { label: 'Schema', slug: 'transactions/schema' },
+            { label: 'Transaction Data', slug: 'transactions/transaction-data' },
+            { label: 'Partitions', slug: 'transactions/partitions' },
           ],
         },
         {
