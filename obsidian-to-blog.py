@@ -81,16 +81,11 @@ def find_doc_slug(note_name, docs_dir):
     URL path (relative to docs_dir, without extension), or None.
     """
     slug = slugify(note_name)
-    for doc_file in docs_dir.rglob('*.md'):
-        if doc_file.stem == 'welcome' and 'blog' in doc_file.parts:
-            continue
-        if slug == doc_file.stem:
-            rel = doc_file.relative_to(docs_dir).with_suffix('')
-            return str(rel)
-    for doc_file in docs_dir.rglob('*.mdx'):
-        if slug == doc_file.stem:
-            rel = doc_file.relative_to(docs_dir).with_suffix('')
-            return str(rel)
+    for ext in ('*.md', '*.mdx'):
+        for doc_file in docs_dir.rglob(ext):
+            if slug == doc_file.stem:
+                rel = doc_file.relative_to(docs_dir).with_suffix('')
+                return str(rel)
     return None
 
 
@@ -249,8 +244,8 @@ def create_blog_post(obsidian_file_path, custom_date=None, author_name=None, aut
     content = transform_urls(content)
     content = transform_display_math(content)
 
-    name = author_name or 'Triplox team'
-    role = author_title or 'Maintainers'
+    name = author_name or 'Finn Völkel'
+    role = author_title or 'Maintainer'
 
     front_matter = (
         '---\n'
@@ -283,8 +278,8 @@ def main():
         print('Usage: python obsidian-to-blog.py [options] <path-to-obsidian-file>')
         print('\nOptions:')
         print('  --date YYYY-MM-DD   Override the post date (default: today)')
-        print('  --author NAME       Author name (default: "Triplox team")')
-        print('  --title TITLE       Author title (default: "Maintainers")')
+        print('  --author NAME       Author name (default: "Finn Völkel")')
+        print('  --title TITLE       Author title (default: "Maintainer")')
         print('\nExample:')
         print("  python obsidian-to-blog.py '/home/user/obsidian/My Post.md'")
         print("  python obsidian-to-blog.py --date 2026-05-01 'My Post.md'")
