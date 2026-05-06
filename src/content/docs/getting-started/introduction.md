@@ -3,4 +3,24 @@ title: Introduction
 description: Introduction to Triplox.
 ---
 
-Placeholder — write the introduction here.
+Triplox is a [Datomic](https://www.datomic.com/)-inspired database for system of record applications. Triplox is backed by [SlateDB](https://github.com/slatedb/slatedb/), a key-value store itself backed by object-storage. Triplox is single writer and many readers. Facts are immutably stored as a set of facts called datoms. Transactions are totally ordered via a log and provide ACID guarantees.
+
+The goals of Triplox are roughly the following (in no particular order):
+
+- Object storage first. In it's final version Triplox should simply need a single (or likely two) S3 bucket(s) for deployment. This is currently not the case. See the [Architecture](/getting-started/architecture) section.
+
+- The Datomic data model and API as main inspiration. Datomic is awesome. Let's bring an open source version directly to object-storage that is easily scalable.
+
+- A Client/Server architecture. We hope that this will open the door to ecosystems outside of the JVM (where Datomic has had it's main success).
+
+- Incremental Datalog queries. You should be able to dynamically subscribe and detach from incremental Datalog queries. This is the most experimental part of Triplox and will need quite a bit of engineering effort to get right, make fast, and to fully support all features of Datalog.
+
+Many things that apply to Datomic, will also apply to Triplox, but there will be differences due to the architecture. We don't plan to be 1-to-1 compatible. There are also things still up for discussion, see the [Open Questions](/open-questions/log) section. Many features are out-of-scope for now, as we want to make transactions, queries and incremental queries stable in a first version.
+
+To further explore Triplox:
+ - See the [quick start](/getting-started/quick-start) if you just want launch Triplox, ingest some data and query in back with your favourite API.
+ - See [architecture](/getting-started/architecture) for an overview of the different parts of Triplox.
+ - See [life of a Transaction](/transactions/life-of-a-transaction) to get an understanding how a transaction flows through a Triplox setup.
+ - See [query language](/query-language/overview) to understand and learn the syntax for EDN Datalog queries.
+ - See [APIs](/apis/clojure/) to have a look at the available language bindings. We currently support Clojure, Rust and Java. If you wish to create a new client, have a look at the [protocol doc](https://github.com/FiV0/triplox/blob/main/design/WIRE_PROTOCOL.md) in the repository.
+ - Finally there are some [open questions](/open-questions/log) up for discussion. Feel free to join the [Discord](https://discord.gg/CYaAYFwC) or open a ticket in the [repo](https://github.com/FiV0/triplox/) if you have ideas or insights on those.

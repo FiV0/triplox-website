@@ -58,6 +58,7 @@ export default defineConfig({
           label: 'Transactions',
           collapsed: true,
           items: [
+            { label: 'Life of a transaction', slug: 'transactions/life-of-a-transaction' },
             { label: 'Transaction Model', slug: 'transactions/transaction-model' },
             { label: 'Schema', slug: 'transactions/schema' },
             { label: 'Transaction Data', slug: 'transactions/transaction-data' },
