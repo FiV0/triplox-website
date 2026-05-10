@@ -15,7 +15,7 @@ The goals of Triplox are roughly the following (in no particular order):
 
 - Incremental Datalog queries. You should be able to dynamically subscribe and detach from incremental Datalog queries. This is the most experimental part of Triplox and will need quite a bit of engineering effort to get right, make fast, and to fully support all features of Datalog.
 
-Many things that apply to Datomic, will also apply to Triplox, but there will be differences due to the architecture. We don't plan to be 1-to-1 compatible. There are also things still up for discussion, see the [Open Questions](/open-questions/log) section. Many features are out-of-scope for now, as we want to make transactions, queries and incremental queries stable in a first version.
+Many things that apply to Datomic, will also apply to Triplox, but there will be differences due to the architecture. We don't plan to be 1-to-1 compatible. There are also things still up for discussion, see the [Roadmap](/roadmap/roadmap) section. Many features are out-of-scope for now, as we want to make transactions, queries and incremental queries stable in a first version.
 
 To further explore Triplox:
  - See the [quick start](/getting-started/quick-start) if you just want launch Triplox, ingest some data and query in back with your favourite API.
@@ -23,4 +23,4 @@ To further explore Triplox:
  - See [life of a Transaction](/transactions/life-of-a-transaction) to get an understanding how a transaction flows through a Triplox setup.
  - See [query language](/query-language/overview) to understand and learn the syntax for EDN Datalog queries.
  - See [APIs](/apis/clojure/) to have a look at the available language bindings. We currently support Clojure, Rust and Java. If you wish to create a new client, have a look at the [protocol doc](https://github.com/FiV0/triplox/blob/main/design/PROTOCOL.md) in the repository.
- - Finally there are some [open questions](/open-questions/log) up for discussion. Feel free to join the [Discord](https://discord.gg/CYaAYFwC) or open a ticket in the [repo](https://github.com/FiV0/triplox/) if you have ideas or insights on those.
+ - Finally there is the [roadmap](/roadmap/roadmap) along with some open questions up for discussion. Feel free to join the [Discord](https://discord.gg/CYaAYFwC) or open a ticket in the [repo](https://github.com/FiV0/triplox/) if you have ideas or insights on those.

@@ -73,10 +73,10 @@ export default defineConfig({
           ],
         },
         {
-          label: 'Streaming Queries',
+          label: 'Incremental Queries',
           collapsed: true,
           items: [
-            { label: 'Overview', slug: 'streaming-queries/overview' },
+            { label: 'Overview', slug: 'incremental-queries/overview' },
           ],
         },
         {
@@ -96,12 +96,13 @@ export default defineConfig({
           ],
         },
         {
-          label: 'Open Questions',
+          label: 'Roadmap',
           collapsed: true,
           items: [
-            { label: 'Log', slug: 'open-questions/log' },
-            { label: 'Bag vs Set semantics', slug: 'open-questions/bag-vs-set-semantics' },
-            { label: 'Tx Pipeline', slug: 'open-questions/tx-pipeline' },
+            { label: 'Roadmap', slug: 'roadmap/roadmap' },
+            { label: 'Log', slug: 'roadmap/log' },
+            { label: 'Bag vs Set semantics', slug: 'roadmap/bag-vs-set-semantics' },
+            { label: 'Tx Pipeline', slug: 'roadmap/tx-pipeline' },
           ],
         },
       ],
