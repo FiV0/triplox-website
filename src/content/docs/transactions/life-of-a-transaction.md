@@ -20,7 +20,7 @@ description: The lifecycle of a Triplox transaction.
         │         Writer Node         │  │  Reader Node 1  │
         │                             │  │                 │
         │      ┌──────────────┐       │  │                 │
-  ┌─────┼─────▶│   Indexer    │       │  │                 │
+  ┌─────┼────▶│   Indexer    │       │  │                 │
   │     │      └──────────────┘       │  │                 │
   │     │                             │  │                 │
   │     └─────────────┬───────────────┘  └─────────────────┘
