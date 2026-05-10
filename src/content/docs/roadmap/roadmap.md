@@ -3,4 +3,5 @@ title: Roadmap
 description: Planned work and direction for Triplox.
 ---
 
-Placeholder — roadmap and planned work.
+In an initial version Triplox will have quite the bare bones API. We want to focus on transactions, queries and incremental queries.
+In later steps the APIs can be extended to support all the other features Datomic offers. This includes the `pull` and `entity` API as well querying over the whole history.

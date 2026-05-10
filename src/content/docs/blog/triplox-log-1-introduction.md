@@ -23,7 +23,7 @@ SlateDB is built with OLTP access patterns in mind and this translates directly 
 The architecture of Triplox for a 3 node setup then would roughly look as follows (subject to change):
 
 ```
-                     ┌─────────────────────────────────────────────────────────────┐
+                   ┌─────────────────────────────────────────────────────────────┐
                    │                   Object Storage (S3)                       │
                    │                                                             │
                    │  ┌─────────────┐      ┌─────────────┐      ┌─────────────┐  │
@@ -39,7 +39,7 @@ The architecture of Triplox for a 3 node setup then would roughly look as follow
         │         Writer Node         │  │  Reader Node 1  │  │  Reader Node 2 │
         │                             │  │                 │  │                │
         │      ┌──────────────┐       │  │                 │  │                │
-  ┌─────┼────▶│   Indexer    │       │  │                 │  │                │
+  ┌─────┼─────▶│   Indexer    │       │  │                 │  │                │
   │     │      └──────────────┘       │  │                 │  │                │
   │     │                             │  │                 │  │                │
   │     └─────────────┬───────────────┘  └─────────────────┘  └────────────────┘
