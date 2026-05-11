@@ -18,9 +18,17 @@ We have also discussed creating a standalone slatedb-wal, extracting the wal com
 So far this seems to be the best option to me, but I am happy to hear other ideas.
 
 
-### Bag vs Set semantics
+### Bag vs set semantics
 
+On the query side there is a question of bag vs set semantics. Currently we are implementing bag semantics for query results
+and this differs to traditional Datomic. Set semantics would remain closer to the traditional Datalog literature and
+also avoids certain awkward query patterns where variables otherwise "leak"
+into aggregates (see some thoughts in the [semantics document](https://github.com/FiV0/triplox/blob/main/design/SEMANTICS.md)).
+On the other hand, bags allow you to stream result sets in batches (no deduplication of the full result set) and in
+theory also need less DBSP distinct operators (an operator that is expensive to maintain). The decision on this
+needs some more thought. If you have strong opinions regarding the set vs bag question, feel free to raise them on Discord
+or in a ticket.
 
-### Tx Pipeline
+### Tx pipeline
 
 Placeholder — open questions about the transaction pipeline.
