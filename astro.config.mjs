@@ -100,9 +100,7 @@ export default defineConfig({
           collapsed: true,
           items: [
             { label: 'Roadmap', slug: 'roadmap/roadmap' },
-            { label: 'Log', slug: 'roadmap/log' },
-            { label: 'Bag vs Set semantics', slug: 'roadmap/bag-vs-set-semantics' },
-            { label: 'Tx Pipeline', slug: 'roadmap/tx-pipeline' },
+            { label: 'Open questions', slug: 'roadmap/open-questions' },
           ],
         },
       ],
