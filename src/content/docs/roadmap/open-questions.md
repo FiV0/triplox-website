@@ -32,3 +32,12 @@ or in a ticket.
 ### Tx pipeline
 
 Placeholder — open questions about the transaction pipeline.
+
+
+### External Log vs SlateDb WAL
+
+As Triplox has an extra Log sitting in front of SlateDb, we don't really need SlateDb's WAL feature for durability. The problem is
+that we want to use the WAL for CDC (Change Data Capture). We don't want to use the External Log for that as we want to see the
+changes to the indexes when they have gone through the indexer. We don't want to do the transaction resolving and validation dance
+done by the indexer once more on a reader node just to get the data for a incremental query pipeline. The downside of all this is
+more object storage put requests and operation costs.
