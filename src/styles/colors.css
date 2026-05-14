@@ -170,3 +170,7 @@ main.main:has(.hero) {
   border-bottom: none !important;
 }
 
+/* Keep identifier columns readable in docs tables. */
+.sl-markdown-content table :is(th, td):first-child {
+  white-space: nowrap;
+}
