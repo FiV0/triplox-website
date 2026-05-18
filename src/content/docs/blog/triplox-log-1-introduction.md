@@ -172,7 +172,7 @@ In `or` clauses disjunction is the default. If you want to get back to conjuncti
 ```clojure
 {:find [?e]
  :where [[?e :age 42]
-         (or [?e :likes "icecream"]]
+         (or [?e :likes "icecream"]
              (and [?e :profession "programmer"]
                   [?e :likes "donuts"]))]}
 ```
