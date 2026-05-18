@@ -174,3 +174,8 @@ main.main:has(.hero) {
 .sl-markdown-content table :is(th, td):first-child {
   white-space: nowrap;
 }
+
+/* Tighten the left indent of lists in docs content (browser default is 40px). */
+.sl-markdown-content :is(ul, ol):not(:where(.not-content *)) {
+  padding-inline-start: 1rem;
+}
