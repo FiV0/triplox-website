@@ -1,9 +1,15 @@
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 import starlightBlog from 'starlight-blog';
 import starlightThemeBlack from 'starlight-theme-black';
 
 export default defineConfig({
+  markdown: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex],
+  },
   integrations: [
     starlight({
       title: 'Triplox',
@@ -12,7 +18,7 @@ export default defineConfig({
         dark: './src/assets/blocks_logo_dark.svg',
         replacesTitle: false,
       },
-      customCss: ['./src/styles/colors.css'],
+      customCss: ['./src/styles/colors.css', 'katex/dist/katex.min.css'],
       components: {
         Sidebar: './src/components/Sidebar.astro',
         PageTitle: './src/components/PageTitle.astro',
