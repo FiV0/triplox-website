@@ -15,6 +15,7 @@ export default defineConfig({
       customCss: ['./src/styles/colors.css'],
       components: {
         Sidebar: './src/components/Sidebar.astro',
+        PageTitle: './src/components/PageTitle.astro',
       },
       social: [
         {
