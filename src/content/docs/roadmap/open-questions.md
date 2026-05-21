@@ -1,6 +1,6 @@
 ---
 title: Open questions
-description: Open questions about the log, bag vs set semantics, and the transaction pipeline.
+description: Open questions about the architecture of Triplox.
 ---
 
 ### Log
