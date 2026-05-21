@@ -17,7 +17,7 @@ Establishes a connection to a running Triplox server and returns a client node. 
 
 `execute_tx` submits a transaction and waits until the indexer has applied it, returning a `TransactionResult` that reports whether the transaction committed or aborted along with the assigned `tx_id` and system time. This is the method you want when you need to know the outcome of the transaction before continuing, or when the next step relies on the new data being visible.
 
-## A db value
+## db value
 
 Open an immutable database value at the latest transaction known to the node with `db`. All reads happening against this db value see a consistent point-in-time view that is unaffected by concurrent writes.
 
