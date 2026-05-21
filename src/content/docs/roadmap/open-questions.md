@@ -31,7 +31,13 @@ or in a ticket.
 
 ### Tx pipeline
 
-Placeholder — open questions about the transaction pipeline.
+To me the transaction pipeline feels currently like the most brittle part of the system. There are lots of assumptions made and if
+an assumption is wrong the system might diverge from a correct state. This for example includes schema. On schema updates,
+an in memory structure gets updated, if the data structure and actual data on disk diverge we are in a bad place. One solution
+is to always re-query the schema (after the transaction has been submitted) when a schema update is detected.
+This might be slowing down the hot ingestion path a bit, but schema updates don't happen too often.
+One aspect which can not be solved via a query is uniqueness constraints. [Mentat](https://github.com/mozilla/mentat) solved this by using `CREATE UNIQUE INDEX` in SQLite, there is no equivalent in SlateDB, the storage layer of Triplox,
+so we can kind of need to guarantee correctness of the tx pipeline.
 
 
 ### External Log vs SlateDb WAL
