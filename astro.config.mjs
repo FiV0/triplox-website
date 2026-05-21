@@ -97,6 +97,7 @@ export default defineConfig({
           label: 'APIs',
           collapsed: true,
           items: [
+            { label: 'Overview', slug: 'apis/overview' },
             { label: 'Clojure', slug: 'apis/clojure' },
             { label: 'Rust', slug: 'apis/rust' },
             { label: 'Java', slug: 'apis/java' },
