@@ -29,31 +29,45 @@ Afterwards you connect with your favorite client.
 <Tabs syncKey="lang">
   <TabItem label="Rust">
     ```rust
-    let conn = Triplox::connect("triplox://localhost:5490").await?;
+    let node = ClientNode::connect("http://localhost:5490").await?;
 
     // schema
-    conn.transact(r#"[{:db/ident :name
-                       :db/valueType :db.type/string
-                       :db/cardinality :db.cardinality/one}
-                      {:db/ident :age
-                       :db/valueType :db.type/long
-                       :db/cardinality :db.cardinality/one}]"#).await?;
+    node.execute_tx(vec![
+        TxOp::put(vec![
+            (kw!(:db/ident), kw!(:name).into()),
+            (kw!(:db/valueType), kw!(:db.type/string).into()),
+            (kw!(:db/cardinality), kw!(:db.cardinality/one).into()),
+        ]),
+        TxOp::put(vec![
+            (kw!(:db/ident), kw!(:age).into()),
+            (kw!(:db/valueType), kw!(:db.type/long).into()),
+            (kw!(:db/cardinality), kw!(:db.cardinality/one).into()),
+        ]),
+    ]).await?;
 
     // data
-    conn.transact(r#"[{:name "alice" :age 30}
-                      {:name "bob" :age 25}]"#).await?;
+    node.execute_tx(vec![
+        TxOp::put(vec![
+            (kw!(:name), "alice".into()),
+            (kw!(:age), 30_i64.into()),
+        ]),
+        TxOp::put(vec![
+            (kw!(:name), "bob".into()),
+            (kw!(:age), 25_i64.into()),
+        ]),
+    ]).await?;
 
     // query
-    let db = conn.db().await?;
-    let result = db.q(r#"{:find [?e ?name ?age]
-                          :where [[?e :name ?name]
-                                  [?e :age ?age]]}"#).await?;
+    let db = node.db().await?;
+    let rows = db.query(r#"{:find [?e ?name ?age]
+                            :where [[?e :name ?name]
+                                    [?e :age ?age]]}"#).await?;
     // => [[8796093022209, "alice", 30], [8796093022208, "bob", 25]]
     ```
   </TabItem>
   <TabItem label="Clojure">
     ```clojure
-    (require '[io.triplox.api :as tc])
+    (require '[xyz.triplox.api :as tc])
 
     (def conn (tc/connect "localhost" 5490))
 
@@ -70,41 +84,40 @@ Afterwards you connect with your favorite client.
                        {:name "bob" :age 25}])
 
     ;; query
-    (with-open [db (tc/db conn)]
-      (tc/q db '{:find [?e ?name ?age]
-                 :where [[?e :name ?name]
-                         [?e :age ?age]]}))
+    (def db (tc/db conn))
+    (tc/q db '{:find [?e ?name ?age]
+               :where [[?e :name ?name]
+                       [?e :age ?age]]})
     ;; => [[8796093022209 "alice" 30] [8796093022208 "bob" 25]]
     ```
   </TabItem>
   <TabItem label="Java">
     ```java
-    var conn = Triplox.connect("triplox://localhost:5490");
+    var node = TriploxNode.connect("localhost", 5490);
 
     // schema
-    conn.transact("""
-        [{:db/ident :name
-          :db/valueType :db.type/string
-          :db/cardinality :db.cardinality/one}
-         {:db/ident :age
-          :db/valueType :db.type/long
-          :db/cardinality :db.cardinality/one}]
-        """);
+    node.executeTx(list(
+            new TxOp.Put(map(
+                    ":db/ident", kw(":name"),
+                    ":db/valueType", kw(":db.type/string"),
+                    ":db/cardinality", kw(":db.cardinality/one"))),
+            new TxOp.Put(map(
+                    ":db/ident", kw(":age"),
+                    ":db/valueType", kw(":db.type/long"),
+                    ":db/cardinality", kw(":db.cardinality/one")))));
 
     // data
-    conn.transact("""
-        [{:name "alice" :age 30}
-         {:name "bob" :age 25}]
-        """);
+    node.executeTx(list(
+            new TxOp.Put(map(":name", "alice", ":age", 30L)),
+            new TxOp.Put(map(":name", "bob", ":age", 25L))));
 
     // query
-    try (var db = conn.db()) {
-        var result = db.q("""
-            {:find [?e ?name ?age]
-             :where [[?e :name ?name]
-                     [?e :age ?age]]}
-            """);
-    }
+    var db = node.openDb();
+    var rows = db.query("""
+        {:find [?e ?name ?age]
+         :where [[?e :name ?name]
+                 [?e :age ?age]]}
+        """);
     // => [[8796093022209, "alice", 30], [8796093022208, "bob", 25]]
     ```
   </TabItem>

@@ -25,7 +25,7 @@ The following REPL session defines a small schema, inserts two entities, and run
 You will need a running Triplox server. See the [quick start](/getting-started/quick-start/) for how to launch one.
 
 ```clojure
-(require '[io.triplox.api :as tc])
+(require '[xyz.triplox.api :as tc])
 
 (def host "localhost")
 (def port 5490)
@@ -52,10 +52,10 @@ You will need a running Triplox server. See the [quick start](/getting-started/q
 ;;     :committed? true,
 ;;     :error-message nil}
 
-;; 3. Open a DB snapshot and query
-(with-open [db (tc/db conn)]
-  (tc/q db '{:find [?e ?name ?age]
-             :where [[?e :name ?name]
-                     [?e :age ?age]]}))
+;; 3. Open a DB value and query
+(def db (tc/db conn))
+(tc/q db '{:find [?e ?name ?age]
+           :where [[?e :name ?name]
+                   [?e :age ?age]]})
 ;; => [[8796093022209 "alice" 30] [8796093022208 "bob" 25]]
 ```

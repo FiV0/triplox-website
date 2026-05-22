@@ -34,13 +34,12 @@ You will need a running Triplox server. See the [quick start](/getting-started/q
 
 
 ```java
-import io.triplox.client.Db;
-import io.triplox.client.TriploxNode;
-import io.triplox.client.TxOp;
+import xyz.triplox.client.TriploxNode;
+import xyz.triplox.client.TxOp;
 
-import static io.triplox.client.Util.kw;
-import static io.triplox.client.Util.list;
-import static io.triplox.client.Util.map;
+import static xyz.triplox.client.Util.kw;
+import static xyz.triplox.client.Util.list;
+import static xyz.triplox.client.Util.map;
 
 public final class SimpleExample {
     private SimpleExample() {
@@ -76,18 +75,17 @@ public final class SimpleExample {
             }
             System.out.println("Data inserted (tx_id=" + dataResult.txId() + ").");
 
-            try (Db db = node.openDb()) {
-                System.out.println("Opened DB snapshot (tx_eid=" + db.txEid() + ").");
-                var rows = db.query("""
-                        {:find [?e ?name ?age]
-                         :where [[?e :name ?name]
-                                 [?e :age ?age]]}
-                        """);
+            var db = node.openDb();
+            System.out.println("Opened DB value (tx_eid=" + db.txEid() + ").");
+            var rows = db.query("""
+                    {:find [?e ?name ?age]
+                     :where [[?e :name ?name]
+                             [?e :age ?age]]}
+                    """);
 
-                System.out.println("Query returned " + rows.size() + " row(s):");
-                for (var row : rows) {
-                    System.out.println("  " + row);
-                }
+            System.out.println("Query returned " + rows.size() + " row(s):");
+            for (var row : rows) {
+                System.out.println("  " + row);
             }
         }
 

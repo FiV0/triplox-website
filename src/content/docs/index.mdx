@@ -46,7 +46,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
     ];
     node.execute_tx(data_ops).await?;
 
-    // Open a DB snapshot and query
+    // Open a DB value and query
     let db = node.db().await?;
     let rows = db
         .query(r#"{:find [?e ?name ?age]
@@ -61,11 +61,11 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
     (tc/transact conn [{:name "alice" :age 30}
                        {:name "bob" :age 25}])
 
-    ;; Open a DB snapshot and query
-    (with-open [db (tc/db conn)]
-      (tc/q db '{:find [?e ?name ?age]
-                 :where [[?e :name ?name]
-                         [?e :age ?age]]}))
+    ;; Open a DB value and query
+    (def db (tc/db conn))
+    (tc/q db '{:find [?e ?name ?age]
+               :where [[?e :name ?name]
+                       [?e :age ?age]]})
     ;; => [[8796093022209 "alice" 30] [8796093022208 "bob" 25]]
     ```
   </TabItem>
@@ -76,14 +76,13 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
             new TxOp.Put(map(":name", "alice", ":age", 30L)),
             new TxOp.Put(map(":name", "bob", ":age", 25L))));
 
-    // Open a DB snapshot and query
-    try (Db db = node.openDb()) {
-        var rows = db.query("""
-            {:find [?e ?name ?age]
-             :where [[?e :name ?name]
-                     [?e :age ?age]]}
-            """);
-    }
+    // Open a DB value and query
+    var db = node.openDb();
+    var rows = db.query("""
+        {:find [?e ?name ?age]
+         :where [[?e :name ?name]
+                 [?e :age ?age]]}
+        """);
     ```
   </TabItem>
 </Tabs>
