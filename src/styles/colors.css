@@ -171,11 +171,17 @@ main.main:has(.hero) {
 }
 
 /* Keep identifier columns readable in docs tables. */
-.sl-markdown-content table :is(th, td):first-child {
+.sl-markdown-content table :is(th, td):is(:first-child, :nth-child(2)) {
   white-space: nowrap;
 }
 
 /* Tighten the left indent of lists in docs content (browser default is 40px). */
 .sl-markdown-content :is(ul, ol):not(:where(.not-content *)) {
   padding-inline-start: 1rem;
+}
+
+/* Disable code-font ligatures so operators like `<=` and `>=` render as separate glyphs. */
+.sl-markdown-content :is(code, pre, kbd, samp) {
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0, 'clig' 0, 'calt' 0;
 }
