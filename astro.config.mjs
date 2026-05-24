@@ -76,7 +76,8 @@ export default defineConfig({
           label: 'Query Language',
           collapsed: true,
           items: [
-            { label: 'Overview', slug: 'query-language/overview' },
+            { label: 'Datalog', slug: 'query-language/datalog' },
+            { label: 'Expression Engine', slug: 'query-language/expression-engine' },
           ],
         },
         {
