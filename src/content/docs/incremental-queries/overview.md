@@ -3,7 +3,8 @@ title: Incremental Queries
 description: Incremental queries in Triplox.
 ---
 
-**🚧 Incremental queries are the most experimental part of Triplox. They are under active development. 🚧**
+**🚧 Incremental queries are the most experimental part of Triplox. There will likely be issues about the non-happy paths and
+these they need more testing under heavy workloads. They are under active development. 🚧**
 
 An incremental query delivers a stream of changes between two subsequent database values. A standard [query](/query-language/overview/) delivers a result set at a given point in time $t$. Let us call the database at that time $DB_t$. A transaction creates a new database $DB_{t+1}$. An incremental query gives you the changes of the static query between $DB_t$ and $DB_{t+1}$ from a given $t$ onwards (this is sometimes written as $\Delta DB$).
 
