@@ -40,10 +40,12 @@ One aspect which can not be solved via a query is uniqueness constraints. [Menta
 so we can kind of need to guarantee correctness of the tx pipeline.
 
 
-### External Log vs SlateDb WAL
+### WAL tailing and Change Data Capture
 
-As Triplox has an extra Log sitting in front of SlateDb, we don't really need SlateDb's WAL feature for durability. The problem is
-that we want to use the WAL for CDC (Change Data Capture). We don't want to use the External Log for that as we want to see the
-changes to the indexes when they have gone through the indexer. We don't want to do the transaction resolving and validation dance
-done by the indexer once more on a reader node just to get the data for a incremental query pipeline. The downside of all this is
-more object storage put requests and operation costs.
+As described above, Triplox uses an external log, so at first glance there is no need for enabling WAL replay on SlateDB level.
+Triplox can read from SlateDB without waiting for durability, as we can always replay transactions from the external log if a node dies.
+On the other hand Change Data Capture (CDC) done by tailing the WAL is quite handy for incremental queries.
+The WAL files contain the new state in the indexes after having gone through the indexer, so they reflect what actually
+made it into the database without doing all the verification that has happened in the indexer once more on a different path.
+That is why we are currently using CDC from SlateDB for incremental query support. There is of course a cost associated
+with streaming the WAL. More object storage put requests and listing operations for listening to WAL changes.
