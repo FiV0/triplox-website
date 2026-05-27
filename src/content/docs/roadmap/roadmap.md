@@ -28,4 +28,4 @@ The following is a non-exhaustive list of things that we plan to add to Triplox 
 - Extending the Expression Engine with more standard functions
 - the `entity` API
 - the `pull` API
-- Transaction Functions - This is likely quite far away and I don't know when get to that. It likely involves compiling transaction functions to WASM.
+- Transaction Functions - This is likely quite far away and I don't know when (if ever) we get to that. It likely involves compiling transaction functions to WASM.
