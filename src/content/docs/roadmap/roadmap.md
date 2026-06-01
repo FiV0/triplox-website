@@ -20,12 +20,13 @@ The following is a non-exhaustive list of things that we plan to add to Triplox 
   - `not-join`
   - rules
   - queries over all of history
+- the `entity` API
 - incremental queries
   - `or`/`or-join`
   - `and`
   - `not`/`not-join`
   - `predicate`/`function` patterns
 - Extending the Expression Engine with more standard functions
-- the `entity` API
 - the `pull` API
+- database branching - SlateDB supports branching natively. Triplox branching should be build on top of this SlateDB feature.
 - Transaction Functions - This is likely quite far away and I don't know when (if ever) we get to that. It likely involves compiling transaction functions to WASM. A project to look into for this is Cranelift.
