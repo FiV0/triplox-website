@@ -4,6 +4,7 @@ description: Triplox schema.
 ---
 
 Every Datom added to Triplox is validated by a schema. The schema itself is described by entities.
+Schema is data and no different in terms of storage then standard entities.
 A schema entity has the following attributes:
 
 | Attribute         | Description                                                               | Required? |
