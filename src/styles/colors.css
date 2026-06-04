@@ -185,3 +185,12 @@ main.main:has(.hero) {
   font-variant-ligatures: none;
   font-feature-settings: 'liga' 0, 'clig' 0, 'calt' 0;
 }
+
+/* Make asides (Note/Tip/Caution/Danger) quieter: drop the tinted background,
+ * keep just a thin accent border and smaller text. */
+.starlight-aside {
+  background-color: transparent;
+  padding-block: 0.25rem;
+  border-inline-start-width: 2px;
+  font-size: var(--sl-text-sm);
+}
