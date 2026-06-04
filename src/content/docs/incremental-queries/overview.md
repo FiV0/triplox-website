@@ -56,4 +56,5 @@ Once a circuit is primed, we can start listening to changes. For this we use Sla
 
 ### Outlook
 
-As all the historical data is available in the indexes, nothing prevents us to start an incremental query at older transaction basis values. The main issue is the catch-up phase (the phase where we play through transactions that have already made it through the indexer)needs a different way to be played through compared to the CDC listening of SlateDB. We essentially need to play through old transactions.
+As all the historical data is available in the indexes, nothing prevents us to start an incremental query at older transaction basis values. The main issue is the catch-up phase (the phase where we play through transactions that have already made it through the indexer)
+needs a different way to be played through compared to the CDC listening of SlateDB. We essentially need to play through old transactions.
