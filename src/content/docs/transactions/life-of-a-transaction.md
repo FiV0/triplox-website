@@ -100,6 +100,9 @@ as distinct concerns rather than unified into a single dense id. `TxBasis`
 pairs them so callers get the lookup-free behavior without coupling the
 entity-id allocator to the log's offset scheme.
 
+### Transaction entity
+
+
 ### Concepts
 
 - **TxKey** — identifies a unique transaction on the log (`tx_id` +
