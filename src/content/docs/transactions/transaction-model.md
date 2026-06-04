@@ -1,6 +1,6 @@
 ---
 title: Transaction Model
-description: Triplox transaction model.
+description: Triplox's transaction model.
 ---
 
 In Triplox every submitted transaction gets processed by the indexer. The indexer is the
