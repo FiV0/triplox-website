@@ -21,11 +21,13 @@ The following is a non-exhaustive list of things that we plan to add to Triplox 
   - rules
   - queries over all of history
 - the `entity` API
-- incremental queries
+- incremental queries (IQs)
   - `or`/`or-join`
   - `and`
   - `not`/`not-join`
   - `predicate`/`function` patterns
+  - rules (rules for IQs require recursive circuits which are more tricky than simply building a circuit tree)
+- explicit entity id partition support
 - Extending the Expression Engine with more standard functions
 - the `pull` API
 - database branching - SlateDB supports branching natively. Triplox branching should be build on top of this SlateDB feature.
