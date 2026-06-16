@@ -3,11 +3,30 @@ title: Transaction Model
 description: Triplox's transaction model.
 ---
 
+This pages tries to give a highlevel overview of how Triplox's transaction model works.
+We try to follow [Datomic's transaction model](https://docs.datomic.com/transactions/model.html),
+so it is encouraged to also read that page (just be aware that we don't support
+all features Datomic supports). This page is likely a bit more `ad hoc` and concerns
+the transaction pipeline of Triplox so you have some understanding how data gets validated
+and why transactions gets rejected or not indexed.
+
+Every transaction is set of facts (also called Datoms) that either get indexed into Triplox
+or not for reasons below. The order of these facts and how they appear in
+[transaction data](/transations/transaction-data) is not important. Every transaction gets
+validated with the state of Triplox just before this transaction is applied. This is also
+why we need a total order for our transactions, before they go through the tx pipeline.
+The Datomic folks have done a way thorougher job explaining why you might want such semantics
+than I ever could, so I encourage you to read that document.
+
+The rest of the page is mainly concerned with transaction validation and why a transaction might
+not get indexed. It kind of illustrates the transaction semantics via all the validation that
+happens in the tx pipeline before a transaction gets written to SlateDB indexes.
+
 In Triplox every submitted transaction gets processed by the indexer. The indexer is the
 single writer (see [Life of a transaction](/transactions/life-of-a-transaction/)) and the
 only component that mutates the [covering indexes](/data-model/#indexes). Every transaction
-(be it valid or not) is on the log and gets processed by the indexer. When transaction data
-arrives a list of steps happen.
+(be it valid or not) is on the log and gets processed by the indexer.
+
 
 The steps are roughly the following (and subject to change):
 
