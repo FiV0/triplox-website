@@ -103,5 +103,6 @@ See [transaction entity](/transactions/life-of-a-transaction/#transaction-entity
 
 :::note
 Transactions that violate some constraint usually don't have any trace in Datomic and
-get rejected by the transactor.
+get rejected by the transactor. In Triplox these transaction always get a
+transaction entity documenting that failure.
 :::
