@@ -6,7 +6,7 @@ description: Triplox's transaction model.
 This pages tries to give a highlevel overview of how Triplox's transaction model works.
 We try to follow [Datomic's transaction model](https://docs.datomic.com/transactions/model.html),
 so it is encouraged to also read that page (just be aware that we don't support
-all features Datomic supports). This page is likely a bit more `ad hoc` and concerns
+all features Datomic supports). This page is likely a bit more ad hoc and concerns
 the transaction pipeline of Triplox so you have some understanding how data gets validated
 and why transactions gets rejected or not indexed.
 
@@ -28,7 +28,7 @@ only component that mutates the [covering indexes](/data-model/#indexes). Every 
 (be it valid or not) is on the log and gets processed by the indexer.
 
 
-The following are the steps the tx pipeline roughly goes (subject to change):
+The following are the steps the tx pipeline roughly goes through (subject to change):
 
 #### Transaction data expansion
 
@@ -55,16 +55,15 @@ We continue resolving tempids and upserts. This is I think the most hairy step i
 Tempids are the way to create or connect entities inside one transaction. Tempids with `:db.unique/identity`
 attributes may upsert on to an existing entity. Otherwise Triplox allocates new entities
 in the appropriate partitions for the new entities. We also need to assure that tempids upserting
-to two or more different entities aborts the transaction. Tempids only appearing in value ref
+to two or more entities aborts the transaction. Tempids only appearing in value ref
 position are also disallowed.
 
 #### Schema validation
 
-We validate the datoms against schema. Once entity ids are concrete, Triplox checks the
-datoms as facts. Attributes must exist, values must have the type declared by the
+We validate the datoms against schema. Attributes must exist, values must have the type declared by the
 attribute, and cardinality-one attributes cannot get multiple distinct values from the
-same transaction. For cardinality-one, an assertion and retraction of the exact same fact
-in one transaction is also treated as a conflict rather than an ordering trick.
+same transaction. For cardinality-one attributes, an assertion and retraction of the exact same fact
+in one transaction is also treated as a conflict.
 
 #### Cardinality-one retractions
 
@@ -85,7 +84,7 @@ the same transaction.
 #### Schema update
 
 If in the previous steps a schema update was detected we prepare it now. Schema is just data,
-but there some constraints on schema entity updates that are tighter than standard
+but there are some constraints on schema entity updates that are tighter than standard
 entity updates. We currently also require certain attributes to be present for a schema
 entity to be valid.
 
