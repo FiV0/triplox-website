@@ -44,7 +44,7 @@ flows through this system and the data eventually becomes queryable.
 
 A transaction is send to the primary node for indexing. The node appends the transaction data
 verbatim (serializing the transaction to some canonical format) to a log. This could be a Kafka log
-or a WAL writing directly to for example an S3 express bucket. You might ask why there is an extra log and
+or a WAL writing directly to a S3 express bucket. You might ask why there is an extra log and
 if the transactions could not be buffered on the primary server. As Triplox
 is a client/server system, we want to acknowledge transactions without a
 lot of latency even when there is a lot of back pressure from indexing.
@@ -54,67 +54,57 @@ A transaction is appended to the log and a `TxKey` is returned. The
 identifying the transaction and a `system_time`, the wall-clock instant the transaction
 was appended. At this point the transaction is durable but lives on the log as plain,
 unindexed data. The indexer subscribes to the log and, for each record, materializes the
-transaction data into the [covering indexes]
-as a *transaction entity* in the `TX_PARTITION` partition.
-  This entity carries:
-    - a freshly allocated transaction entity id (`tx_eid`)
-    - `:db/txId` — the `tx_id` from above
-    - `:db/txInstant` — the `system_time` from above
-    - `:db/txResult` — whether the transaction was committed or aborted
-    - `:db/txError` — an optional transaction error
-- Every indexed datom is tagged with the `tx_eid` of the transaction that
-  wrote it, so it is the `tx_eid` — not the `tx_id` — that actually filters
-  the indexes when a query runs against a given snapshot.
-- Because the `tx_eid` is allocated *inside* the indexer, callers that only
-  hold a `TxKey` cannot scan immediately: they would first have to resolve
-  `:db/txId → tx_eid` via the AVE index. To avoid that lookup on the hot
-  path of every `db_as_of`, the indexed transaction handle is `TxBasis`,
-  which bundles the `TxKey` with its resolved `tx_eid`:
+transaction data into the  [covering indexes](/data-model/#indexes). This means each user
+datom gets indexed into the EAV, AVE and AEV index. Datoms containing a unique attribute
+also get indexed into the VAE index.
 
-  ```rust
-  pub struct TxBasis {
-      pub tx_key: TxKey,
-      pub tx_eid: i64,
-  }
-  ```
+A transaction key `TxKey` serves two purposes. It allows us to uniquely identify a transaction on the log.
+Secondly it serves as basis for database values as we will see below. For this reason "transaction key" and "basis"
+are sometimes used synonymously, but `TxKey` is mostly used in the log context and basis in a database value
+context.
 
-- `TxBasis` is what flows through the system once a transaction has been
-  indexed:
-    - The indexer's `transact_tx` and its completion broadcast return a
-      `TxBasis`, so the `tx_eid` is known the moment a transaction is
-      indexed.
-    - `latest_tx_basis_from_snapshot` reads the latest basis directly from
-      `TX_PARTITION` when reopening a DB.
-    - `Database::db_as_of` takes a `TxBasis` directly, so callers that
-      already have one (e.g. from awaiting a submitted transaction) open a
-      snapshot without any extra lookup.
-    - `TransactionResult` wraps `TxBasis`
-      (`TxCommited(TxBasis)` / `TxAborted(TxBasis, _)`).
-    - The Rust and JVM wire DTOs for opening an as-of DB carry `tx_eid`
-      alongside `tx_id` and `system_time`, so a client can pass a full
-      basis over the wire (`TxBasis(long txId, Instant systemTime, long
-      txEid)` on the JVM side).
+When transaction data gets indexed into SlateDB in the tx pipeline we also mint a transaction entity.
+The entity id of this transaction entity is what gets referenced as `tx` in every other Datom of the transaction
+and also the transaction entity itself. It is this `tx_eid` that allows us to later filter the indexes
+up to a particular point (basis). There is a one to one relationship between the `tx_id` (read transaction id)
+and the `tx_eid` (transaction entity id). The `tx_eid` is the `tx_id` allocated in the `TX_PARTITION`
+(see [partitions](/transaction/partitions)). So the relationship can be expressed in the following
+formula `tx_eid = (TX_PARTITION << 42) | tx_id)`. This is what allows us to cleanly map `TxKey` to a database value.
 
-Note that the log offset (`tx_id`) and the entity id (`tx_eid`) are kept
-as distinct concerns rather than unified into a single dense id. `TxBasis`
-pairs them so callers get the lookup-free behavior without coupling the
-entity-id allocator to the log's offset scheme.
+The transaction entity carries the following attributes:
+- `:db/txId` — the `tx_id` from the `TxKey` of this transaction.
+- `:db/txInstant` — the `system_time` of the `TxKey`
+- `:db/txResult` — whether the transaction was committed or aborted
+- `:db/txError` — an optional transaction error
 
-### Transaction entity
+In the future we might add, similar to Datomic, a special tempid identifier so one can attach extra attributes
+to this transaction entity for transaction tracebility. Every transaction written to the log gets processed
+by the indexer and always gets a transaction entity id. The user supplied transaction data is only written
+if no tx pipeline constraint was violated (see [Transaction model](/transactions/transaction-model)).
 
+The relationship between `tx_id` and `tx_eid` allows us to immediately run queries given a `TxKey` as it directly
+maps `TxKey` to a basis for filtering the indexes.
+
+The transaction entity ids are the only entity ids that are set through an external mechanism (the monotonic
+increasing `tx_id`s of the log). All other entity ids are allocated in the indexer.
+
+:::note
+There is a difference between transaction as they are processed by Triplox and Datomic.
+A transaction violating some constraint (for example a uniqueness constraint), has no trace in Datomic. In Triplox
+every transaction gets written to the log and processed by the indexer, it's the indexer who decides if
+a transaction is valid or not.
+:::
 
 ### Concepts
 
 - **TxKey** — identifies a unique transaction on the log (`tx_id` +
   `system_time`). Returned by the submit-tx API.
-- **tx_id** — an offset into the transaction log identifying the start of the
+- **tx_id** (transaction id) — an offset into the transaction log identifying the start of the
   transaction record; also serves as the transaction's identity on the log.
 - **transaction entity** — the entity in the `TX_PARTITION` partition that carries
   information about the result and state of a transaction *after* it has
   been indexed.
-- **tx_eid (transaction entity id)** — the entity id of that transaction
-  entity. This is what every indexed datom is tagged with in the `T`, and what a
-  query execution uses to filter indexes to a given snapshot.
-- **TxBasis** — the indexed transaction handle: a `TxKey` paired with the
-  `tx_eid` of its transaction entity. Lets callers open a DB at a snapshot
-  without a `tx_id → tx_eid` lookup.
+- **tx_eid** (transaction entity id) — the entity id of that transaction
+  entity. This is what every indexed datom is tagged with in the `Tx` position, and what a
+  query execution uses to filter indexes to a given snapshot. The relationship
+  between `tx_id` and `tx_eid` is given by the formula `tx_eid = (TX_PARTITION << 42) | tx_id)`.
