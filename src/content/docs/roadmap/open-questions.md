@@ -49,3 +49,16 @@ The WAL files contain the new state in the indexes after having gone through the
 made it into the database without doing all the verification that has happened in the indexer once more on a different path.
 That is why we are currently using CDC from SlateDB for incremental query support. There is of course a cost associated
 with streaming the WAL. More object storage put requests and listing operations for listening to WAL changes.
+
+### Historical indices
+
+Currently every datom, be that an assertion or a retraction, gets indexed into the same global unique indexes. We resolve the
+"current" values of some db at read time. As history grows this will cause read amplification and if entities have a lot of
+versions will not scale well. My current thinking is that I will likely split the covering indexes into a "current" (for some
+reasonable definition of current) and a historic version. The idea would be that most performance critical queries
+run close to the "head" of the indexer. If one is interested in truly historic queries (like last quarter), than it's fine
+to take the extra performance hit.
+
+Another option is of course to take a complete different route and look into things like
+[Hitchhiker trees](https://github.com/datacrypt-project/hitchhiker-tree) and also consider the immutable path copying approach
+that Datomic likely uses. This would be a complete overhaul of the storage layer, so not something I am currently considering.
