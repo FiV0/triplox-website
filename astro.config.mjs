@@ -13,6 +13,15 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Triplox',
+      // Pin a monospace stack whose fonts all ship box-drawing glyphs so the
+      // ASCII architecture diagrams stay aligned on mobile (no per-glyph
+      // fallback to a different-width font). See src/styles/colors.css.
+      expressiveCode: {
+        styleOverrides: {
+          codeFontFamily:
+            "'DejaVu Sans Mono', Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace",
+        },
+      },
       logo: {
         light: './src/assets/blocks_logo.svg',
         dark: './src/assets/blocks_logo_dark.svg',

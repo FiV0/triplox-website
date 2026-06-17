@@ -186,6 +186,32 @@ main.main:has(.hero) {
   font-feature-settings: 'liga' 0, 'clig' 0, 'calt' 0;
 }
 
+/*
+ * Stopgap for the ASCII box-drawing architecture diagrams (architecture.md,
+ * life-of-a-transaction.md). Their alignment depends on every glyph — including
+ * the box characters `─│┌┐└┘├┤▲▼` — sharing one monospace cell width. On mobile
+ * the default code-font stack substitutes a different-width fallback for the box
+ * glyphs and text-size-adjust inflates the grid unevenly, so the columns drift.
+ *
+ * Freeze mobile text inflation and keep wide diagrams on a horizontal scroll
+ * rather than wrapping. The matching font pin lives in astro.config.mjs via
+ * Expressive Code's `styleOverrides.codeFontFamily` (its font variable is
+ * minified, so it can't be overridden from plain CSS). The font stack here
+ * covers inline code and any non-Expressive-Code `<pre>`. The proper fix is to
+ * replace the ASCII art with responsive SVG/Mermaid diagrams.
+ */
+.sl-markdown-content :is(code, pre, kbd, samp) {
+  font-family: 'DejaVu Sans Mono', Menlo, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.sl-markdown-content pre {
+  overflow-x: auto;
+  white-space: pre;
+}
+
 /* Make asides (Note/Tip/Caution/Danger) quieter: drop the tinted background,
  * keep just a thin accent border and smaller text. */
 .starlight-aside {
