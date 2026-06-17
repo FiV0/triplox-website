@@ -60,5 +60,6 @@ run close to the "head" of the indexer. If one is interested in truly historic q
 to take the extra performance hit.
 
 Another option is of course to take a complete different route and look into things like
-[Hitchhiker trees](https://github.com/datacrypt-project/hitchhiker-tree) and also consider the immutable path copying approach
-that Datomic likely uses. This would be a complete overhaul of the storage layer, so not something I am currently considering.
+[Hitchhiker trees](https://github.com/datacrypt-project/hitchhiker-tree) and also consider the path copying approach with some
+version of immutable trees that Datomic likely uses. This would be a complete overhaul of the storage layer,
+so not something I am currently considering.
