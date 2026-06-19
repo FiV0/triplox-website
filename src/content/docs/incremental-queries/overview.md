@@ -32,16 +32,46 @@ Then the new result set a time $t+1$ would be
 The above assumes `:person/name` is a unique attribute and that a given person can only have a single residence (which are both questionable data modelling choices).
 The incremental version of the above query would therefore return the following result for the change of address of Ada Lovelace:
 ```clojure
-[["Ada Lovelace" "12 St. James's Square" -1]
- ["Ada Lovelace" "Buckingham Palace" 1]]
+[[["Ada Lovelace" "12 St. James's Square"] -1]
+ [["Ada Lovelace" "Buckingham Palace"] 1]]
 ```
-A result tuple of an incremental query is made up of the usual unified variables plus one extra integer (sometimes called `:db/diff`) which specifies the change in the corresponding static query result set.
+A result tuple of an incremental query is made up of pair of the usual tuple and a one integer (sometimes called `:db/diff`) in the second position which specifies the change in the corresponding static query result set. For the above `["Ada Lovelace" "12 St. James's Square"]` left the result set and
+`["Ada Lovelace" "Buckingham Palace"]` has been added to the result set.
 
 The above shows an incremental query with some basic unification of variables. In Triplox final version incremental queries will support the same
-feature set as [standard queries](/query-language/datalog). This means Triplox deals with the incremental evaluation of `or`, `and`, `not`, predicates and function evaluation.
-Supporting rules will comes in a later step as it involves compiling recursive DBSP circuit for calculating fixed points which is a lot more tricky then
+feature set as [standard queries](/query-language/datalog). This means Triplox deals with the incremental evaluation of `or`/`or-join`, `and`, `not`/`not-join`, predicates and function evaluation.
+Supporting rules will come in a later step as it involves compiling recursive DBSP circuit for calculating fixed points which is a lot more tricky then
 compiling a circuit without recursion.
 
+The following is the above example spelled out in full
+
+```clojure
+(with-open [conn (t/connect "localhost" 5490)]
+  ;; schmema
+  (t/transact conn [{:db/ident :person/name
+                     :db/valueType :db.type/string
+                     :db/cardinality :db.cardinality/one
+                     :db/unique :db.unique/identity}
+                    {:db/ident :person/residence
+                     :db/valueType :db.type/string
+                     :db/cardinality :db.cardinality/one
+                     :db/unique :db.unique/value}])
+  ;; initial data
+  (t/transact conn [{:person/name "Ada Lovelace"
+                     :person/residence "12 St. James's Square"}
+                    {:person/name "Alan Turing"
+                     :person/residence "Bletchley Park"}])
+
+  (with-open [sub (t/subscribe conn '{:find [?name ?residence]
+                                      :where [[?p :person/name ?name]
+                                              [?p :person/residence ?residence]]})]
+    ;; change
+    (t/transact conn [[:db/add [:person/name "Ada Lovelace"] :person/residence "Buckingham Palace"]])
+
+    (t/take! sub 1000)))
+;; => [[["Ada Lovelace" "12 St. James's Square"] -1]
+;;     [["Ada Lovelace" "Buckingham Palace"] 1]]
+```
 
 ### Incremental query API and setup
 
