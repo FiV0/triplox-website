@@ -2,7 +2,7 @@
 title: Datalog
 description: The Datalog query language.
 ---
-The main query language for Triplox is a variant of [Datalog](https://en.wikipedia.org/wiki/Datalog). Datalog is a logic-based query language inspired by [Prolog](https://en.wikipedia.org/wiki/Prolog). A Datalog program consists of a set of facts. These facts are the Datoms that sit in our covering indexes. Everything else is derived from these facts except for some optional parameters to a query. The variant of Datalog Triplox uses is called EDN Datalog. An EDN Datalog program has the following top-level shape:
+The main query language of Triplox is a variant of [Datalog](https://en.wikipedia.org/wiki/Datalog). Datalog is a logic-based query language inspired by [Prolog](https://en.wikipedia.org/wiki/Prolog). A Datalog program consists of a set of facts. These facts are the Datoms that sit in our covering indexes. Everything else is derived from these facts except for some optional parameters to a query. The variant of Datalog Triplox uses is called EDN Datalog. An EDN Datalog program has the following top-level shape:
 ```clojure
 {:find [...]
  :in [...]
@@ -14,7 +14,7 @@ The main query language for Triplox is a variant of [Datalog](https://en.wikiped
 
 Variables are symbols always prefixed by a `?`. A variable describes something we are looking for. A
 variable can appear in multiple places in the datalog program and almost always describes the
-same thing. Unification assures that these variables match the same thing. Their are certain
+same thing. Unification assures that these variables match the same thing. There are certain
 scopes (`or-join`/`not-join`) for which a variable might unify to different things, if the same
 variable is used inside and outside of the inner scope. It is discouraged to use the same
 variable name in this manner. We currently only support variables in entity and value position.
