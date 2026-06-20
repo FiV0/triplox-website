@@ -4,13 +4,14 @@ description: The Datalog query language.
 ---
 The main query language of Triplox is a variant of [Datalog](https://en.wikipedia.org/wiki/Datalog). Datalog is a logic-based query language inspired by [Prolog](https://en.wikipedia.org/wiki/Prolog). A Datalog program consists of a set of facts. These facts are the Datoms that sit in our covering indexes. Everything else is derived from these facts except for some optional parameters to a query. The variant of Datalog Triplox uses is called EDN Datalog. An EDN Datalog program has the following top-level shape:
 ```clojure
-{:find [...]
- :in [...]
- :where [...]
- :limit 100
- :order-by [...]
+'{:find [?name ?residence]
+  :in [...] ;; optional
+  :where [[?p :person/name ?name]
+          [?p :person/residence "Buckingham Palace"]]
+  :limit 100 ;; optional
+  :order-by [?name]}
 ```
-### Variables
+### Variables, Constants and Unification
 
 Variables are symbols always prefixed by a `?`. A variable describes something we are looking for. A
 variable can appear in multiple places in the datalog program and almost always describes the
@@ -20,7 +21,6 @@ variable is used inside and outside of the inner scope. It is discouraged to use
 variable name in this manner. We currently only support variables in entity and value position.
 In the future this might change.
 
-### Unification
 
 Unification happens when a variable appears in multiple patterns of a datalog program. Consider
 the following query:
@@ -35,17 +35,14 @@ are used colloquially for the same thing; the person. The person in question sho
 have a name (which is also a variable) and have "Buckingham Palace" as residence. By using
 `?p`in two patterns we guarantee that the person has a name and that it lives at "Buckingham Palace". We say that `?p` unifies across the patterns.
 
-
-### Constants
-
 In the above program the ident `:person/residence` and the string "Buckingham Palace" are constants.
 Constants are used to constrain patterns to facts matching these constants. In the above
 example we were only interested in people that had a name attribute and had their
 residence at Buckingham Palace.
 
-## The `where` clauses
+## The where clauses
 
-The patterns appearing in the where restrict the datalog query to the data we are looking for.
+The patterns appearing in the `where` restrict the datalog query to the data we are interested in.
 
 ### Triple pattern
 The most basic and fundamental pattern is a triple pattern that matches directly against
