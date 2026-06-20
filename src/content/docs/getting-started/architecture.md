@@ -108,7 +108,7 @@ storage across multiple AWS services, DynamoDB for the transaction log, S3 for i
   and EFS as a durable cache. Triplox keeps everything in a single object
   store through [SlateDB](https://github.com/slatedb/slatedb) (with a separate log for now) and
   is not tied to a particular cloud. Be also aware that the way Datomic stores data
-  is likely quite different to the simple indexes of Triplox stored in SlateDB.
+  is likely quite different to the simple indexes of Triplox stores in SlateDB.
   Triplox does currently not have any version of immutable trees
   (see [Hitchhiker Trees](https://github.com/datacrypt-project/hitchhiker-tree)). As
   history grows this will create read amplification.

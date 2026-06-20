@@ -10,17 +10,19 @@ all features Datomic supports). This page is likely a bit more ad hoc and concer
 the transaction pipeline of Triplox so you have some understanding of how data gets validated
 and why transactions get rejected or not indexed.
 
-Every transaction is a set of facts (also called Datoms) that either get indexed into Triplox
-or not for reasons below. The order of these facts and how they appear in
+Every transaction is a set of facts (also called Datoms) that get indexed all at once into Triplox.
+When certain constraints on these facts are not satisfied transactions get rejected.
+The order of these facts and how they appear in the
 [transaction data](/transactions/transaction-data) is not important. Every transaction gets
 validated with the state of Triplox just before this transaction is applied. This is also
-why we need a total order for our transactions, before they go through the tx pipeline.
+why transactions need a [total order](https://en.wikipedia.org/wiki/Total_order)  before they go through the
+transaction pipeline.
 The Datomic folks have done a much more thorough job explaining why you might want such semantics
-than I ever could, so I encourage you to read that document.
+than I ever could, so I encourage you to read the above linked document.
 
-The rest of the page is mainly concerned with transaction validation and why a transaction might
-not get indexed. It kind of illustrates the transaction semantics via all the validation that
-happens in the tx pipeline before a transaction gets written to SlateDB indexes.
+The rest of the page is concerned with transaction validation and why a transaction might
+not get indexed. It illustrates the transaction semantics via all the validation that
+happens in the transaction pipeline before a transaction gets written to SlateDB indexes.
 
 In Triplox every submitted transaction gets processed by the indexer. The indexer is the
 single writer (see [Life of a transaction](/transactions/life-of-a-transaction/)) and the
@@ -28,13 +30,13 @@ only component that mutates the [covering indexes](/data-model/#indexes). Every 
 (be it valid or not) is on the log and gets processed by the indexer.
 
 
-The following are the steps the tx pipeline roughly goes through (subject to change):
+The following are the steps the transaction pipeline roughly goes through (subject to change):
 
 #### Transaction data expansion
 
 Expand the submitted transaction data of the transaction. Triplox turns assertions, retractions, map forms,
-idents and `:db/id` sugar into the internal Datom data structure used by the rest of the
-pipeline. Idents that don't exist, malformed `:db/id` or lookup-refs are caught at this step.
+    idents and `:db/id` sugar into the internal Datom data structure used by the rest of the
+pipeline. Idents that don't exist, malformed `:db/id`s or lookup-refs are caught at this step.
 
 #### Lookup-ref resolving
 
@@ -60,7 +62,7 @@ position are also disallowed.
 
 #### Schema validation
 
-We validate the datoms against the schema. Attributes must exist, values must have the type declared by the
+Next, the datoms are validated against the schema. Attributes must exist, values must have the type declared by the
 attribute, and cardinality-one attributes cannot get multiple distinct values from the
 same transaction. For cardinality-one attributes, an assertion and retraction of the exact same fact
 in one transaction is also treated as a conflict.
