@@ -38,12 +38,28 @@ The incremental version of the above query would therefore return the following 
 A result tuple of an incremental query is made up of pair of the usual tuple and a one integer (sometimes called `:db/diff`) in the second position which specifies the change in the corresponding static query result set. For the above `["Ada Lovelace" "12 St. James's Square"]` left the result set and
 `["Ada Lovelace" "Buckingham Palace"]` has been added to the result set.
 
-The above shows an incremental query with some basic unification of variables. In Triplox final version incremental queries will support the same
-feature set as [standard queries](/query-language/datalog). This means Triplox deals with the incremental evaluation of `or`/`or-join`, `and`, `not`/`not-join`, predicates and function evaluation.
-Supporting rules will come in a later step as it involves compiling recursive DBSP circuit for calculating fixed points which is a lot more tricky then
-compiling a circuit without recursion.
+The above shows an incremental query with some basic unification of variables.
+In Triplox's final version incremental queries will support the same
+feature set as [standard queries](/query-language/datalog). This means Triplox deals with
+the incremental evaluation of `or`/`or-join`, `and`, `not`/`not-join`, predicates and function evaluation.
+Supporting rules will come in a later step as it involves compiling recursive DBSP circuits
+for calculating fixed points which is a lot more tricky then compiling a circuit without recursion.
 
-The following is the above example spelled out in full
+### Incremental query API and setup
+
+An incremental query is registered on a connection. Incremental queries (IQs) are defined with the same syntax as [standard queries](/query-language/datalog/). The reason IQs take a connection and not a db value, as standard queries do, is because they return change between db values. This change happens between two subsequent DB values (in other systems you would call these DB snapshots).
+Every Client API has a concept of a `subscribe` method which registers the incremental query on the server.
+`subscribe` returns a stateful object that either needs to get closed or explicitly unregistered depending on the API. Incremental queries require resources on the server and the closing mechanics assure that these resources are properly cleaned up on the server. `subscribe` takes the connection and the query as arguments.
+
+When an incremental query gets registered it takes out a DB value at a given `TxBasis`. For now this just happens to be the basis the node has caught up to, meaning you can currently only register incremental queries at roughly where the indexer is at. It builds, what is called in [DBSP](https://docs.rs/dbsp/latest/dbsp/) terminology, a circuit. This circuit gets primed by the data from the given `TxBasis`, meaning the data that is currently present in the indexes. You can think of this priming as running the static one-shot query through the circuit. This means the circuit initialization might take quite a while depending on how much data is already in the indexes that is relevant for the given incremental query. I want to give some intuition of why the circuit needs to get primed with the old data when we are only interested in future deltas. Consider a join of two abstract relations $A \bowtie B$. When something in $A$ changes (written as $\Delta A$) we still might need to join it against the old data, i.e. $\Delta A \bowtie B_{old}$.
+
+### Incremental query evaluation
+
+Once a circuit is primed, we can start listening to changes. For this we use SlateDB's [Change Data Capture](https://slatedb.io/docs/design/change-data-capture/) with which we are tailing WAL files (here we mean WAL files from SlateDB not our external log) as they appear on object storage. A WAL file might contain many transactions, so we construct the transactions in order from the WAL and apply them to all registered incremental queries. Applying every transaction is of course heavier than applying coarser changes. In the future we might support applying all changes from one WAL file in one go to the circuits. The upside of this approach is that incremental query evaluation is likely quicker, but you lose granularity in the output. If a fact was added and later retracted and this addition and retraction happens to reside in the same WAL file, you won't see any delta changes in a corresponding delta query in the output as the two changes cancelled each other out when constructing the changes for a WAL file, so the tradeoff will be speed vs granularity.
+
+### Example
+
+The following is the above example spelled out in full using the Clojure API.
 
 ```clojure
 (with-open [conn (t/connect "localhost" 5490)]
@@ -73,18 +89,7 @@ The following is the above example spelled out in full
 ;;     [["Ada Lovelace" "Buckingham Palace"] 1]]
 ```
 
-### Incremental query API and setup
-
-An incremental query is registered on a connection. Incremental queries (IQs) are defined with the same syntax as [standard queries](/query-language/datalog/). The reason IQs take a connection and not a db value as standard queries is because they return change between db values. This change happens between two subsequent DB values (in other systems you would call these DB snapshots). Every Client API has a concept of a `subscribe` method which registers the incremental query on the server. `subscribe` returns a stateful object that either needs to get closed or explicitly unregistered depending on the API. Incremental queries require resources on the server and the closing mechanics assure that these resources are properly cleaned up on the server. `subscribe` takes the connection and the query as arguments.
-
-When an incremental query gets registered it takes out a DB value at a given `TxBasis`. For now this just happens to be the basis the node has caught up to, meaning you can currently only register incremental queries at roughly where the indexer is at. It builds, what is called in [DBSP](https://docs.rs/dbsp/latest/dbsp/) terminology, a circuit. This circuit gets primed by the data from the given `TxBasis`, meaning the data that is currently present in the indexes. You can think of this priming as running the static one-shot query through the circuit. This means the circuit initialization might take quite a while depending on how much data is already in the indexes that is relevant for the given incremental query. To give you some intuition of why the circuit needs to get primed with the old data when we are only interested in future deltas, consider a join of two abstract relations $A \bowtie B$. When something in $A$ changes (written as $\Delta A$) we still might need to join it against the old data, i.e. $\Delta A \bowtie B_{old}$.
-
-### Incremental query evaluation
-
-Once a circuit is primed, we can start listening to changes. For this we use SlateDB's [Change Data Capture](https://slatedb.io/docs/design/change-data-capture/) with which we are tailing WAL files (here we mean WAL files from SlateDB not our external log) as they appear on object storage. A WAL file might contain many transactions, so we construct the transactions in order from the WAL and apply them to all registered incremental queries. Applying every transaction is of course heavier than applying coarser changes. In the future we might support applying all changes from one WAL file in one go to the circuits. The upside of this approach is that incremental query evaluation is likely quicker, but you lose granularity in the output. If a fact was added and later retracted and this addition and retraction happens to reside in the same WAL file, you won't see any delta changes in a corresponding delta query in the output as the two changes cancelled each other out when constructing the changes for a WAL file, so the tradeoff will be speed vs granularity.
-
 
 ### Outlook
 
-As all the historical data is available in the indexes, nothing prevents us to start an incremental query at older transaction basis values. The main issue is the catch-up phase (the phase where we play through transactions that have already made it through the indexer)
-needs a different way to be played through compared to the CDC listening of SlateDB. We essentially need to play through old transactions.
+As all the historical data is available in the indexes, nothing prevents us to start an incremental query at an older transaction basis. The catch-up phase (the phase where we play through transactions that have already made it through the indexer) needs a different mechanism to play through the transactions compared to the CDC backed listening of SlateDB. Either we
