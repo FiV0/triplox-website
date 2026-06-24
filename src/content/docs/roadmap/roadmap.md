@@ -15,6 +15,7 @@ Some parts which are (currently) explicitly different to Datomic Datalog are:
 
 The following is a non-exhaustive list of things that we plan to add to Triplox eventually.
 
+- Reader node support. Currently the node can only run as primary node.
 - query API features
   - `or-join`
   - `not-join`
@@ -30,5 +31,5 @@ The following is a non-exhaustive list of things that we plan to add to Triplox 
 - explicit entity id partition support
 - Extending the Expression Engine with more standard functions
 - the `pull` API
-- database branching - SlateDB supports branching natively. Triplox branching should be build on top of this SlateDB feature.
+- database branching - SlateDB supports branching natively. Triplox branching should be build on top of that feature.
 - Transaction Functions - This is likely quite far away and I don't know when (if ever) we get to that. It likely involves compiling transaction functions to WASM. A project to look into for this is Cranelift.
