@@ -33,12 +33,12 @@ Afterwards you connect with your favorite client.
 
     // schema
     node.execute_tx(vec![
-        TxOp::put(vec![
+        TxOp::put([
             (kw!(:db/ident), kw!(:name).into()),
             (kw!(:db/valueType), kw!(:db.type/string).into()),
             (kw!(:db/cardinality), kw!(:db.cardinality/one).into()),
         ]),
-        TxOp::put(vec![
+        TxOp::put([
             (kw!(:db/ident), kw!(:age).into()),
             (kw!(:db/valueType), kw!(:db.type/long).into()),
             (kw!(:db/cardinality), kw!(:db.cardinality/one).into()),
@@ -47,11 +47,11 @@ Afterwards you connect with your favorite client.
 
     // data
     node.execute_tx(vec![
-        TxOp::put(vec![
+        TxOp::put([
             (kw!(:name), "alice".into()),
             (kw!(:age), 30_i64.into()),
         ]),
-        TxOp::put(vec![
+        TxOp::put([
             (kw!(:name), "bob".into()),
             (kw!(:age), 25_i64.into()),
         ]),
