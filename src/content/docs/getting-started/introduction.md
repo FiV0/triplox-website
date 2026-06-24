@@ -3,7 +3,7 @@ title: Introduction
 description: Introduction to Triplox.
 ---
 
-Triplox is a [Datomic](https://www.datomic.com/)-inspired database for system of record applications. Triplox is backed by [SlateDB](https://github.com/slatedb/slatedb/), a key-value store itself backed by object-storage. Triplox is single writer and many readers. The database is a set of facts called Datoms. Transactions are totally ordered via a log and provide ACID guarantees. The name Triplox is portmanteau of triple and blocks.
+Triplox is a [Datomic](https://www.datomic.com/)-inspired database for system of record applications. Triplox is backed by [SlateDB](https://github.com/slatedb/slatedb/), a key-value store itself backed by object-storage. It is single writer and many readers. The database is a set of facts called Datoms. Transactions are totally ordered via a log and provide ACID guarantees. The name Triplox is portmanteau of triple and blocks.
 
 The goals of Triplox are roughly the following (in no particular order):
 
