@@ -11,14 +11,17 @@ the transaction pipeline of Triplox so you have some understanding of how data g
 and why transactions get rejected or not indexed.
 
 Every transaction is a set of facts (also called Datoms) that get indexed all at once into Triplox.
-When certain constraints on these facts are not satisfied transactions get rejected.
+When certain constraints on these facts are not satisfied, transactions get rejected.
 The order of these facts and how they appear in the
 [transaction data](/transactions/transaction-data) is not important. Every transaction gets
-validated with the state of Triplox just before this transaction is applied. This is also
-why transactions need a [total order](https://en.wikipedia.org/wiki/Total_order)  before they go through the
-transaction pipeline.
-The Datomic folks have done a much more thorough job explaining why you might want such semantics
-than I ever could, so I encourage you to read the above linked document.
+validated with the state of Triplox just before this transaction is applied. You can think of this as
+the database $DB_t$ at point $t$ moving to a new database $DB_{t+1}$ by applying the transaction $t+1$. This is also
+why transactions need a [total order](https://en.wikipedia.org/wiki/Total_order) before they go through the
+transaction pipeline. As the [schema](/transactions/schema/) is mainly responsible for transaction
+validation and is first class data itself, it needs to be fixed and available before the next transaction is
+processed. The Datomic folks have done a much more thorough job explaining why you might want such semantics
+than I ever could, so I encourage you to read the above linked document. The important part is that
+ a Triplox transaction either gets fully indexed as a set of facts or not indexed at all.
 
 The rest of the page is concerned with transaction validation and why a transaction might
 not get indexed. It illustrates the transaction semantics via all the validation that
@@ -28,6 +31,21 @@ In Triplox every submitted transaction gets processed by the indexer. The indexe
 single writer (see [Life of a transaction](/transactions/life-of-a-transaction/)) and the
 only component that mutates the [covering indexes](/data-model/#indexes). Every transaction
 (be it valid or not) is on the log and gets processed by the indexer.
+
+The following sections give you an overview of the different validation of constraints that happens
+to a transaction before it gets indexed into SlateDB.
+
+### Schema and the constraints
+
+The [schema](/transactions/schema) is the main
+
+How are the constraints defined - Schema + some additional check on schema attribute updates
+- Schema
+- uniqueness
+- cardinality
+- upserts
+- lookup refs
+- tempids
 
 
 The following are the steps the transaction pipeline roughly goes through (subject to change):
