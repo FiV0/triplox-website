@@ -61,6 +61,7 @@ export default defineConfig({
             { label: 'Introduction', slug: 'getting-started/introduction' },
             { label: 'Quick Start', slug: 'getting-started/quick-start' },
             { label: 'Architecture', slug: 'getting-started/architecture' },
+            { label: 'Concepts', slug: 'getting-started/concepts' },
           ],
         },
         {
