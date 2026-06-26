@@ -4,7 +4,7 @@ description: Triplox partitions.
 ---
 
 Entities are assigned to a particular partition. Partitions allow the grouping of entities
-that are loosly related. Tenants are good example where different partitions make sense. We closely
+that are loosly related. Tenants are a good example where different partitions make sense. We closely
 follow [Datomic's](https://docs.datomic.com/transactions/partitions.html) partition assignment
 mechanism. The highest 20 bits of entity ids are reserved for partitions. The main point of partitions
 is data locality when joining. Related entities are grouped together and related data is
