@@ -7,7 +7,6 @@ Every Triplox client API, regardless of language, currently exposes the same sma
 take out a consistent db value (sometimes called db snapshot in other systems) with `db` or `db_as_of`. You can query
 data on db values with `q`/`query`. [Incremental query](/incremental-queries/overview/) subscriptions give you a way to listen to changes to the Triplox system with the full power of Datalog.
 
-
 ## connect
 
 Establishes a connection to a running Triplox server and returns a client node. The node is the entry point for everything else: submitting transactions and opening DB snapshots. A node holds network resources, so it should be closed when no longer needed.
@@ -31,10 +30,10 @@ See the [query language overview](/query-language/overview/) for the syntax of E
 
 ## subscribe
 
-The `subscribe` API takes a node and a query (in the same syntax as standard queries) and returns a subscription handler (also referred as subscription). As changes to the incremental queries are computed on the server, they get pushed to the client. The subscription handler can be queried for new deltas to the incremental query. It is the responsibility of the client to consume newly computed changes on the subscription as
+The `subscribe` API takes a node and a query (in the same syntax as standard queries) and returns a subscription handler (also referred to as a subscription). As changes to the incremental queries are computed on the server, they get pushed to the client. The subscription handler can be queried for new deltas to the incremental query. It is the responsibility of the client to consume newly computed changes on the subscription as
 otherwise data will accumulate on the client. A subscription requires resources on the server and hence needs closing
 when no longer needed. Currently every `subscribe` triggers a fresh incremental query on the server, there is currently no
-way to have one incremental query on the server that pushes it's changes to multiple clients.
+way to have one incremental query on the server that pushes its changes to multiple clients.
 
 ## API method lifecycle and client state
 
