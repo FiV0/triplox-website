@@ -33,3 +33,8 @@ The following is a non-exhaustive list of things that we plan to add to Triplox 
 - the `pull` API
 - database branching - SlateDB supports branching natively. Triplox branching should be build on top of that feature.
 - Transaction Functions - This is likely quite far away and I don't know when (if ever) we get to that. It likely involves compiling transaction functions to WASM. A project to look into for this is Cranelift.
+
+### Collapsing the "DBSP gap" and removing the one-shot query engine
+
+When incremental queries get initialized the underlying DBSP circuits need to get primed. Circuits need to hold state that is needed to correctly function for future updates. The process of initializing this state is called priming. The initialization (simplifying a lot of things) runs the equivalent one-shot query through the corresponding DBSP circuit. The output of this "update" and the standard one-shot query result should be identical. This means that in theory we should be able to run one-off queries and incremental queries through the same code path. I suspect (albeit I have not done a lot of testing on this) that the circuit priming will be a lot slower than standard queries. I call this gap the "DBSP gap". Any DBMS has it, in most it's just infinite as most systems don't support incremental queries 😉. The final boss will be closing this gap and then
+we can get rid of the whole standard query pipeline.
