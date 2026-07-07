@@ -1,18 +1,27 @@
 ---
 title: Concepts
-description: Some core concepts of the
+description: Some core concepts of Datomic-like systems
 ---
 
-As Triplox is quite different to traditional SQL DBMS systems, there are few concepts to
-understand and be sure to have understood before using it.
+As Triplox is quite different to traditional SQL DBMS systems. This page tries to serve as a pointer for
+people that might not be familiar with concepts quite prevalent in Datomic-like stores.
 
 ## Datom
 
-TODO
+The atomic unit of data in Triplox. A fact of the form (entity, attribute, value, tx, op), where `op` marks it an assertion or retraction. The transaction is tracked separately as another entity, not stored in the datom itself. The datom is the full 5-tuple.
+A triple often refers to the first 3 parts of the Datom and is used in the context of the indexes.
 
 ## DB value
 
-TODO
+Traditionally, DB has meant the database system as a whole. Triplox in this particular case.
+Postgres in the context of the Postgres DBMS ecosystem. It has usually meant a place
+(the postgres instance) your application talks to through some client.
+Something that you update, mutate and usually query as of now. Datomic has pioneered the
+concept of the database as a value which means an immutable snapshot view of facts
+at a certain point in time. The term snapshot might make you think that the db value is perishable. Something
+that exists for certain amount of time to for example guarantee consistency during MVCC, but we really mean
+an immutable value that remains valid until the end of time. A query against a database value
+will always return the same set of facts.
 
 ## Keyword
 
