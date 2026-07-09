@@ -35,7 +35,7 @@ The incremental version of the above query would therefore return the following 
 [[["Ada Lovelace" "12 St. James's Square"] -1]
  [["Ada Lovelace" "Buckingham Palace"] 1]]
 ```
-A result tuple of an incremental query is made up of pair of the usual tuple and a one integer (sometimes called `:db/diff`) in the second position which specifies the change in the corresponding static query result set. For the above `["Ada Lovelace" "12 St. James's Square"]` left the result set and
+A result tuple of an incremental query is made up of pair. The first part being the usual result tuple and the second one an integer (sometimes called `:db/diff`) which specifies the change in the corresponding static query result set. For the above `["Ada Lovelace" "12 St. James's Square"]` left the result set and
 `["Ada Lovelace" "Buckingham Palace"]` has been added to the result set.
 
 The above shows an incremental query with some basic unification of variables.
