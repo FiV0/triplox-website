@@ -32,6 +32,9 @@ The following is a non-exhaustive list of things that we plan to add to Triplox 
 - variable support in attribute position
 - Extending the Expression Engine with more standard functions
 - the `pull` API
+- Views server side. Do people want views? Once you have the incremental queries correctly working,
+it's kind of "easy" to add views. The question is mainly should it be a first class concept or do people maintain their views
+themselves.
 - database branching - SlateDB supports branching natively. Triplox branching should be build on top of that feature.
 - Transaction Functions - This is likely quite far away and I don't know when (if ever) we get to that. It likely involves compiling transaction functions to WASM. A project to look into for this is Cranelift.
 
