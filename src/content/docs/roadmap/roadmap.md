@@ -29,6 +29,7 @@ The following is a non-exhaustive list of things that we plan to add to Triplox 
   - `predicate`/`function` patterns
   - rules (rules for IQs require recursive circuits which are more tricky than simply building a circuit tree)
 - explicit entity id partition support
+- variable support in attribute position
 - Extending the Expression Engine with more standard functions
 - the `pull` API
 - database branching - SlateDB supports branching natively. Triplox branching should be build on top of that feature.
