@@ -47,7 +47,7 @@ for calculating fixed points which is a lot more tricky then compiling a circuit
 
 ### Incremental query API and setup
 
-An incremental query is registered on a connection. Incremental queries (IQs) are defined with the same syntax as [standard queries](/query-language/datalog/). The reason IQs take a connection and not a db value, as standard queries do, is because they return change between db values. This change happens between two subsequent DB values (in other systems you would call these DB snapshots).
+An incremental query is registered on a connection. Incremental queries (IQs) are defined with the same syntax as [standard queries](/query-language/datalog/). The reason IQs take a connection and not a db value, as standard queries do, is because they return change between db values (in other systems you might call these DB snapshots).
 Every Client API has a concept of a `subscribe` method which registers the incremental query on the server.
 `subscribe` returns a stateful object that either needs to get closed or explicitly unregistered depending on the API. Incremental queries require resources on the server and the closing mechanics assure that these resources are properly cleaned up on the server. `subscribe` takes the connection and the query as arguments.
 
