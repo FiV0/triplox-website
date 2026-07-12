@@ -55,7 +55,7 @@ When an incremental query gets registered it takes out a DB value at a given `Tx
 
 ### Views
 
-A view in traditional DBMSs acts like a virtual table. The data is often computed when access is requested or updated periodically. Systems like [Materialize](https://github.com/materializeinc/materialize) update the views incrementally. Once you have incremental queries, it is "easy" to implement views on top. I prefer to rather give the more primitive option of an incremental query and let users decide how they want to maintain their views. If many people ask for views maintained on the server side, we can add them.
+A view in traditional DBMSs acts like a virtual table. The data is often computed when access is requested or updated periodically. Systems like [Materialize](https://github.com/materializeinc/materialize) update the views incrementally. Once you have incremental queries, it is "easy" to implement views on top. I prefer to rather give the more primitive option of an incremental query and let users decide how they want to maintain their views. If there is a high demand for views maintained on the server, we can reconsider.
 
 ### Incremental query evaluation
 
