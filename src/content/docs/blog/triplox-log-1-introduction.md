@@ -3,7 +3,6 @@ title: "Triplox Log 1 - Introduction"
 date: 2026-04-28
 authors:
   - name: Finn Völkel
-    title: Maintainer
 ---
 
 I am working on a Datalog database engine à la [Datomic](https://www.datomic.com/) on top of object storage. The system is called Triplox (a portemanteau of Triple and Blocks). In an attempt to become a better communicator I decided to start a little log to explain some concepts in Triplox.

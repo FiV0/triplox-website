@@ -245,15 +245,17 @@ def create_blog_post(obsidian_file_path, custom_date=None, author_name=None, aut
     content = transform_display_math(content)
 
     name = author_name or 'Finn Völkel'
-    role = author_title or 'Maintainer'
+
+    author_lines = f'  - name: {yaml_escape(name)}\n'
+    if author_title:
+        author_lines += f'    title: {yaml_escape(author_title)}\n'
 
     front_matter = (
         '---\n'
         f'title: {yaml_escape(title)}\n'
         f'date: {date_str}\n'
         'authors:\n'
-        f'  - name: {yaml_escape(name)}\n'
-        f'    title: {yaml_escape(role)}\n'
+        f'{author_lines}'
         '---\n\n'
     )
 
@@ -279,7 +281,7 @@ def main():
         print('\nOptions:')
         print('  --date YYYY-MM-DD   Override the post date (default: today)')
         print('  --author NAME       Author name (default: "Finn Völkel")')
-        print('  --title TITLE       Author title (default: "Maintainer")')
+        print('  --title TITLE       Author title (default: none)')
         print('\nExample:')
         print("  python obsidian-to-blog.py '/home/user/obsidian/My Post.md'")
         print("  python obsidian-to-blog.py --date 2026-05-01 'My Post.md'")
