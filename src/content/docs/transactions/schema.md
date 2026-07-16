@@ -59,7 +59,7 @@ Cardinality can take two values:
 
 ### `:db/unique`
 
-Unique attributes are indexed by value and checked during transaction processing.
+Unique attributes are indexed by value (VAE index) and checked during transaction processing.
 
 | ident                 | Description                                                             |
 | --------------------- | ----------------------------------------------------------------------- |
