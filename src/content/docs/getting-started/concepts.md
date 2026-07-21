@@ -43,3 +43,8 @@ you write
 In the context of Triplox you overwhelmingly use keywords for attributes. The closest
 thing in other languages is likely an enum. A fixed constant number of tags to describe
 some domain. This is also the usage of a keyword as a value makes most sense.
+
+If you are not familiar with keywords there is another good way to think about keywords. There are usually two types
+of strings in your program. Dynamically constructed strings like "Hello $USER, nice to see you this $TIME_OF_DAY." and
+strings that are fixed like your schema. "first_name" and "last_name" are good examples.
+Keywords are good use for the latter.
