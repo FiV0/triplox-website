@@ -4,6 +4,7 @@ description: The Triplox Java client.
 ---
 
 The Triplox Java client is published on [Maven Central](https://central.sonatype.com/artifact/xyz.triplox/triplox) under `xyz.triplox:triplox`.
+The full API reference is available at [javadoc.io](https://javadoc.io/doc/xyz.triplox/triplox/latest/xyz/triplox/client/package-summary.html).
 
 ## Installation
 
