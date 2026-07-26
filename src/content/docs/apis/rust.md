@@ -4,6 +4,7 @@ description: The Triplox Rust client.
 ---
 
 The Triplox Rust client is published on [crates.io](https://crates.io/crates/triplox).
+The full API reference is available at [docs.rs](https://docs.rs/triplox-client/latest/triplox_client/).
 
 ## Installation
 
