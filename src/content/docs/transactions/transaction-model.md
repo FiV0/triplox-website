@@ -37,7 +37,14 @@ to a transaction before it gets indexed into SlateDB.
 
 ### Schema and the constraints
 
-The [schema](/transactions/schema) is the main
+The [Schema](/transactions/schema) is the main contributor to checks happening to a given transaction.
+In the beginning the transaction data gets expanded. Triplox turns assertions, retractions, map forms,
+idents and `:db/id` sugar into the internal Datom data structure that is very close to what is
+actually sitting in the indexes. If attribute is not known an error gets thrown. Next [lookup refs](/transactions/schema
+
+
+the datoms get verified against the schema.
+
 
 How are the constraints defined - Schema + some additional check on schema attribute updates
 - Schema
