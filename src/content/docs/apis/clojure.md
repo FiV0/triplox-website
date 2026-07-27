@@ -4,6 +4,7 @@ description: The Triplox Clojure client.
 ---
 
 The Triplox Clojure client is published on [Maven Central](https://central.sonatype.com/artifact/xyz.triplox/triplox) under `xyz.triplox/triplox`.
+The full API reference is available at [cljdoc.org](https://cljdoc.org/d/xyz.triplox/triplox/0.1.0-alpha.5/api/xyz.triplox.api).
 
 ## Installation
 
