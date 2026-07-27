@@ -9,7 +9,7 @@ people that might not be familiar with concepts quite prevalent in Datomic-like 
 ## Datom
 
 The atomic unit of data in Triplox. A fact of the form (entity, attribute, value, tx, op), where `op` marks it an assertion or retraction. The transaction is tracked separately as another entity, not stored in the datom itself. The datom is the full 5-tuple.
-A triple often refers to the first 3 parts of the Datom and is used in the context of the indexes.
+Triple often refers to the first 3 parts of the Datom and is used in the context of the indexes.
 
 ## DB value
 
@@ -21,7 +21,7 @@ concept of the database as a value which means an immutable snapshot view of fac
 at a certain point in time. The term snapshot might make you think that the db value is perishable. Something
 that exists for certain amount of time to for example guarantee consistency during MVCC, but we really mean
 an immutable value that remains valid until the end of time. A query against a database value
-will always return the same set of facts.
+will always work and always return the same set of facts.
 
 ## Keyword
 
@@ -31,7 +31,27 @@ They are made up of an optional prefix (i.e. "db") called the `namespace` and th
 Namespaces are useful for distinguishing otherwise identical names (for example `:person/id` vs `:order/id`).
 There is only one instance of every Keyword. They are interned (ideally)
 and thereby use less memory as every instance exists only once in your program.
-You can think overwhelmingly think of them as keys in maps. Instead of
+Another way to think about keywords is to consider strings. There are usually two types
+of strings in your program. Dynamically constructed strings like `"Hello $USER, nice to see you this $TIME_OF_DAY."` and
+strings that are fixed like your schema. `:first_name` and `:last_name` are good examples.
+In the context of Triplox keywords are overwhelmingly used for attributes. Keywords in
+attribute position are named identifiers for attribute entities.
+Another use case for keywords are non-closed enums. Examples are the Triplox [types](/transactions/schema):
+```clojure
+:db.type/keyword
+:db.type/string
+:db.type/long
+...
+```
+or some other closed set of your domain
+```clojure
+:color/red
+:color/yellow
+:color/green
+```
+This is also where the usage of keywords as values makes most sense.
+
+In most cases you can think of them as keys in maps. Instead of
 writing a map in python like
 ```python
 {"name": "Alan", "city": "London"}
@@ -40,11 +60,3 @@ you write
 ```clojure
 {:name "Alan" :city "London"}
 ```
-In the context of Triplox you overwhelmingly use keywords for attributes. The closest
-thing in other languages is likely an enum. A fixed constant number of tags to describe
-some domain. This is also the usage of a keyword as a value makes most sense.
-
-If you are not familiar with keywords there is another good way to think about keywords. There are usually two types
-of strings in your program. Dynamically constructed strings like "Hello $USER, nice to see you this $TIME_OF_DAY." and
-strings that are fixed like your schema. "first_name" and "last_name" are good examples.
-Keywords are good use for the latter.
