@@ -95,6 +95,7 @@ export default defineConfig({
           collapsed: true,
           items: [
             { label: 'Overview', slug: 'incremental-queries/overview' },
+            { label: 'Tutorial', slug: 'incremental-queries/tutorial' },
           ],
         },
         {
