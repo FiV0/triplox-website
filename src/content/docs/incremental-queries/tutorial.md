@@ -204,7 +204,7 @@ One issue enters the result and one leaves it:
 
 ## Or
 
-Add a status to every issue:
+Let us also add a status to every issue.
 
 ```clojure
 [[:db/add [:issue/key "TPX-1"] :issue/status :status/open]
@@ -216,7 +216,9 @@ Add a status to every issue:
 ```
 
 An issue is active when its status is either open or in progress. The `or`
-clause lets either branch satisfy the query:
+clause lets either branch satisfy the query. Note that we currently
+don't support ident keywords in ref value position and hence the awkward
+unification with `?status`.
 
 ```clojure
 {:find [?title]
@@ -226,7 +228,7 @@ clause lets either branch satisfy the query:
              [?status :db/ident :status/in-progress])]}
 ```
 
-All issues except the closed tutorial-schema issue are initially active:
+All issues except `TPX-4` issue are initially active:
 
 ```clojure
 [[["Add dark mode to the dashboard"] 1]
@@ -236,15 +238,15 @@ All issues except the closed tutorial-schema issue are initially active:
  [["WAL replay is quadratic"] 1]]
 ```
 
-Move one open issue to in progress and close another issue:
+Let's move one open issue to in progress and close another issue:
 
 ```clojure
 [[:db/add [:issue/key "TPX-1"] :issue/status :status/in-progress]
  [:db/add [:issue/key "TPX-5"] :issue/status :status/closed]]
 ```
 
-Changing from open to in progress keeps TPX-1 in the active result, so it
-produces no delta. Closing TPX-5 removes it:
+Changing from open to in progress keeps `TPX-1` in the active result, so it
+produces no delta. Closing `TPX-5` removes it.
 
 ```clojure
 [[["WAL replay is quadratic"] -1]]
@@ -262,7 +264,8 @@ statuses:
          (not [?status :db/ident :status/closed])]}
 ```
 
-At this point, four issues are not closed:
+At this point, four issues are not closed which is what the initialization delta
+will be.
 
 ```clojure
 [[["Add dark mode to the dashboard"] 1]
@@ -271,14 +274,18 @@ At this point, four issues are not closed:
  [["Sync engine drops updates on reconnect"] 1]]
 ```
 
-Close the flaky test:
+Closing the flaky test
 
 ```clojure
 [[:db/add [:issue/key "TPX-6"] :issue/status :status/closed]]
 ```
-
-It leaves the not-closed result:
+results in it leaving the result set.
 
 ```clojure
 [[["Flaky test in the bid pipeline"] -1]]
 ```
+
+### Aggregates, Not-join, Or-join and Rules
+
+We currently don't support any of these, but plan to add them.
+Rules will likely be the last addition.
