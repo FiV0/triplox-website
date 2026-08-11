@@ -56,6 +56,7 @@ When an incremental query gets registered it takes out a DB value at a given `Tx
 ### Views
 
 A view in traditional DBMSs acts like a virtual table. The data is often computed when access is requested or updated periodically. Systems like [Materialize](https://github.com/materializeinc/materialize) update the views incrementally. Once you have incremental queries, it is "easy" to implement views on top. I prefer to rather give the more primitive option of an incremental query and let users decide how they want to maintain their views. If there is a high demand for views maintained on the server, we can reconsider.
+You can find an example of how to implement views for Clojure in the [incremental query tutorial](https://github.com/FiV0/triplox-incremental-tutorial/blob/079a7298c4658acd8fc46917ec00797871ad3f73/src/tutorial.clj#L281-L321). The idea should be fairly easy translatable to other client languages.
 
 ### Incremental query evaluation
 
