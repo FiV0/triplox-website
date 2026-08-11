@@ -193,7 +193,7 @@ This finds us people older than 30 and their birth year. The second where clause
 
 This gives you a little introduction tour of EDN Datalog. I have not touched rules which are the most powerful aspect of Datalog.
 
-There are lots of Triplox parts that I explicitly left out for now. This includes the history aspects of the data model and Rich's [database as a value](https://www.youtube.com/watch?v=D6nYfttnVco) concept, APIs like [pull](https://docs.datomic.com/query/query-pull.html), which allows you to do graph traversals and the [entity API](https://docs.datomic.com/reference/entities.html). I want to focus on transactions and queries in a first Triplox version. There is also lots to be written about for incremental Datalog queries. So stay tuned for more updates about Triplox.
+There are lots of Triplox parts that I explicitly left out for now. This includes the history aspects of the data model and Rich's [database as a value](https://www.youtube.com/watch?v=D6nYfttnVco) concept, APIs like [pull](https://docs.datomic.com/query/query-pull.html), which allows you to do graph traversals and the [entity API](https://docs.datomic.com/reference/entities.html). I want to focus on transactions and queries in a first Triplox version. There is also lots to be written about incremental Datalog queries. So stay tuned for more updates about Triplox.
 
 [^1]: Example shamelessly stolen from Jepsen's Datomic report. <https://jepsen.io/analyses/datomic-pro-1.0.7075>
 
