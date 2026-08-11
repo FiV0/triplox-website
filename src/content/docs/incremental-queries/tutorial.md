@@ -135,10 +135,10 @@ All person + team pairs that were part of the frontend team were removed.
 
 ## Predicates and functions
 
-The next query finds urgent issues, joins each issue to its assignee, and
-calculates its SLA response-time target. Lower priority numbers are more
-urgent. The predicate `[(<= ?priority 2)]` keeps priority-one and priority-two
-issues, while the function binding derives `?response-time-hours`:
+Let us now create a query that uses [predicates](query-language/datalog/#predicates) and
+[functions](query-language/datalog/#functions). It gets urgent issues
+with a high priority, their assignee and the corresponding SLA response time in hours.
+The logic assumes a lower priority number is more urgent.
 
 ```clojure
 {:find [?title ?assignee-name ?response-time-hours]
@@ -179,7 +179,7 @@ Add six issues with priorities from one to five:
   :issue/assignee [:user/handle "alan"]}]
 ```
 
-Three issues satisfy the priority predicate:
+The initial result set of the incremental query satisfies 3 issues.
 
 ```clojure
 [[["Incremental joins allocate per delta" "Grace Hopper" 48] 1]
@@ -187,7 +187,7 @@ Three issues satisfy the priority predicate:
  [["WAL replay is quadratic" "Grace Hopper" 24] 1]]
 ```
 
-Prioritize the flaky test and deprioritize the incremental join allocation
+We now prioritize the flaky test and deprioritize the incremental join allocation
 issue:
 
 ```clojure
