@@ -33,7 +33,7 @@ but are reprsented in standard [EDN](https://github.com/edn-format/edn) format.
 ## Schema
 
 The issue tracker has users, teams, issues, and three issue statuses. Notice
-that user can be part of multiple teams.
+that a user can be part of multiple teams.
 
 ```clojure
 [;; users
