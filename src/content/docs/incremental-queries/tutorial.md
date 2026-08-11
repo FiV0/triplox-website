@@ -3,9 +3,9 @@ title: Incremental Query Tutorial
 description: Learn how Triplox updates incremental Datalog queries as data changes.
 ---
 
-The tutorial assumes some familiarity with [Datalog queries](query-language/datalog/) and does
-not explain the syntax of EDN Datalog. If you prefer to follow the tutorial along in
-a REPL session you can do so in the [triplox-incremental-tutorial](https://github.com/FiV0/triplox-incremental-tutorial/).
+The tutorial assumes some familiarity with [Datalog queries](/query-language/datalog/) and does
+not explain EDN Datalog syntax. If you prefer to follow along with the tutorial in
+a REPL session, you can do so in the [triplox-incremental-tutorial](https://github.com/FiV0/triplox-incremental-tutorial/).
 
 Rows in an incremental result are paired with a weight. A weight of `1` adds a
 row to the result, while `-1` removes it. The order of rows in a result is not
@@ -22,13 +22,13 @@ and its result set.
 [[["Ada Lovelace" "12 St. James's Square"] -1]
  [["Ada Lovelace" "Buckingham Palace"] 1]]
 ```
-It means that "Ada Lovelace" left her residence at 12 St. James's Square and moved to Buckingham Palace.
+This result means that Ada Lovelace moved from 12 St. James's Square to Buckingham Palace.
 
-For the tutorial we are going to consider a minimal issue tracker with the entity
+In this tutorial, we are going to consider a minimal issue tracker with the entity
 types `user`, `team`, `issue` and `status`. The tutorial examples will contain
-[transaction data](transactions/transaction-data/), [queries](query-language/datalog/)
-and result sets. They should be independent of a client,
-but are reprsented in standard [EDN](https://github.com/edn-format/edn) format.
+[transaction data](/transactions/transaction-data/), [queries](/query-language/datalog/)
+and result sets. They are client-independent and represented using standard
+[EDN](https://github.com/edn-format/edn) syntax.
 
 ## Schema
 
@@ -83,9 +83,9 @@ that a user can be part of multiple teams.
 
 ## Joins and unification
 
-Let us start by adding some users and teams. We are going to add 4 users and 2 teams, with
-one user being in both teams of sizes 3 and 2 respectively, but before that we subscribe to
-and incremental query that gives us user together with the team they are part of.
+Let us start by adding four users and two teams. One user belongs to both teams,
+which have three and two members, respectively. Before adding the data, we subscribe
+to an incremental query that returns each user together with each team they belong to.
 
 The query:
 ```clojure
@@ -110,7 +110,7 @@ The data:
  {:user/handle "edsger" :user/name "Edsger Dijkstra" :user/team "team-backend"}]
 ```
 
-An incremental query's first result set returns the equivalent result of a standard query.
+The initialization delta contains the equivalent of the corresponding standard query result.
 
 ```clojure
 [[["Ada Lovelace" "Frontend"] 1]
@@ -119,7 +119,7 @@ An incremental query's first result set returns the equivalent result of a stand
  [["Grace Hopper" "Backend"] 1]
  [["Grace Hopper" "Frontend"] 1]]
 ```
-Let's say we are now removing the frontend team as we decided to build a database (no frontend required 😉).
+Suppose we now remove the Frontend team because we have decided to build a database (no frontend required 😉).
 
 ```clojure
 [[:db/retract [:team/name "Frontend"] :team/name "Frontend"]]
@@ -130,15 +130,15 @@ The next `take!` on the incremental query subscription will return
  [["Alan Turing" "Frontend"] -1]
  [["Grace Hopper" "Frontend"] -1]]
 ```
-All person + team pairs that were part of the frontend team were removed.
+All user-team pairs involving the Frontend team were removed.
 
 
 ## Predicates and functions
 
-Let us now create a query that uses [predicates](query-language/datalog/#predicates) and
-[functions](query-language/datalog/#functions). It gets urgent issues
-with a high priority, their assignee and the corresponding SLA response time in hours.
-The logic assumes a lower priority number is more urgent.
+Let us now create a query that uses [predicates](/query-language/datalog/#predicates) and
+[functions](/query-language/datalog/#functions). It returns high-priority issues,
+their assignees, and their corresponding SLA response-time targets in hours.
+The logic assumes that a lower priority number indicates greater urgency.
 
 ```clojure
 {:find [?title ?assignee-name ?response-time-hours]
@@ -179,7 +179,7 @@ Add six issues with priorities from one to five:
   :issue/assignee [:user/handle "alan"]}]
 ```
 
-The initial result set of the incremental query satisfies 3 issues.
+Three issues satisfy the query and appear in its initial result set:
 
 ```clojure
 [[["Incremental joins allocate per delta" "Grace Hopper" 48] 1]
@@ -217,8 +217,8 @@ Let us also add a status to every issue.
 
 An issue is active when its status is either open or in progress. The `or`
 clause lets either branch satisfy the query. Note that we currently
-don't support ident keywords in ref value position and hence the awkward
-unification with `?status`.
+don't support ident keywords in ref value position, which explains the indirect
+unification through `?status`.
 
 ```clojure
 {:find [?title]
@@ -228,7 +228,7 @@ unification with `?status`.
              [?status :db/ident :status/in-progress])]}
 ```
 
-All issues except `TPX-4` issue are initially active:
+All issues except `TPX-4` are initially active:
 
 ```clojure
 [[["Add dark mode to the dashboard"] 1]
@@ -264,8 +264,8 @@ statuses:
          (not [?status :db/ident :status/closed])]}
 ```
 
-At this point, four issues are not closed which is what the initialization delta
-will be.
+At this point, four issues are not closed, which is what the initialization delta
+will contain.
 
 ```clojure
 [[["Add dark mode to the dashboard"] 1]
@@ -274,12 +274,12 @@ will be.
  [["Sync engine drops updates on reconnect"] 1]]
 ```
 
-Closing the flaky test
+Close the flaky test:
 
 ```clojure
 [[:db/add [:issue/key "TPX-6"] :issue/status :status/closed]]
 ```
-results in it leaving the result set.
+It leaves the result set:
 
 ```clojure
 [[["Flaky test in the bid pipeline"] -1]]
