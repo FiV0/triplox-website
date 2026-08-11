@@ -188,8 +188,9 @@ main.main:has(.hero) {
 
 /*
  * Stopgap for the ASCII box-drawing architecture diagrams (architecture.md,
- * life-of-a-transaction.md). Their alignment depends on every glyph — including
- * the box characters `─│┌┐└┘├┤▲▼` — sharing one monospace cell width. On mobile
+ * life-of-a-transaction.md, triplox-log-1-introduction.md). Their alignment
+ * depends on every glyph — including the box characters `─│┌┐└┘├┤▲▼` — sharing
+ * one monospace cell width. On mobile
  * the default code-font stack substitutes a different-width fallback for the box
  * glyphs and text-size-adjust inflates the grid unevenly, so the columns drift.
  *
@@ -210,6 +211,16 @@ main.main:has(.hero) {
 .sl-markdown-content pre {
   overflow-x: auto;
   white-space: pre;
+}
+
+/* The blog architecture diagram uses a `txt` fence so its box strokes can be
+ * rendered as a continuous grid without changing the spacing of other code. */
+.sl-markdown-content .expressive-code pre[data-language='txt'] > code {
+  line-height: 1;
+}
+
+.sl-markdown-content .expressive-code pre[data-language='txt'] + .copy {
+  display: none;
 }
 
 /* Make asides (Note/Tip/Caution/Danger) quieter: drop the tinted background,
