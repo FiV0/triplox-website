@@ -285,7 +285,7 @@ It leaves the result set:
 [[["Flaky test in the bid pipeline"] -1]]
 ```
 
-### Aggregates, Not-join, Or-join and Rules
+## Aggregates, Not-join, Or-join and Rules
 
 We currently don't support any of these, but plan to add them.
 Rules will likely be the last addition.
