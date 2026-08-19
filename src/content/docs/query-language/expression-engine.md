@@ -24,15 +24,20 @@ There are two ways to use an expression in a clause:
 
 Predicates return a `boolean` and are used as filters.
 
-| Predicate    | Syntax         | Argument types              |
-| ------------ | -------------- | --------------------------- |
-| `<`          | `(< a b)`      | any comparable, same kind   |
-| `<=`         | `(<= a b)`     | any comparable, same kind   |
-| `>`          | `(> a b)`      | any comparable, same kind   |
-| `>=`         | `(>= a b)`     | any comparable, same kind   |
-| `=`          | `(= a b)`      | any                         |
-| `not=`, `!=` | `(not= a b)`   | any                         |
-| `not`        | `(not x)`      | `boolean`                   |
+| Predicate    | Syntax                            | Argument types                    |
+| ------------ | --------------------------------- | --------------------------------- |
+| `<`          | `(< a b)`                         | any comparable, same kind         |
+| `<=`         | `(<= a b)`                        | any comparable, same kind         |
+| `>`          | `(> a b)`                         | any comparable, same kind         |
+| `>=`         | `(>= a b)`                        | any comparable, same kind         |
+| `=`          | `(= a b)`                         | any                               |
+| `not=`, `!=` | `(not= a b)`                      | any                               |
+| `not`        | `(not x)`                         | `boolean`                         |
+| `regexp_like` | `(regexp_like subject "pattern")` | `string`, string literal pattern |
+
+`regexp_like` uses Rust regular expression syntax. Its pattern must be a string
+literal and is compiled when the query is planned. It is only available as a
+predicate, not as a function binding.
 
 ## Functions
 
@@ -77,6 +82,15 @@ Notes:
 | -------- | ----------- | ------------- | ------ |
 | `year`   | `(year t)`  | `instant`     | `long` |
 | `month`  | `(month t)` | `instant`     | `long` |
+
+### Conditional
+
+| Function | Syntax                         | Argument types            | Result          |
+| -------- | ------------------------------ | ------------------------- | --------------- |
+| `if`     | `(if condition then else)`     | `boolean`, any, any       | selected branch |
+
+`if` evaluates to the `then` expression only when its condition produces
+`boolean true`; otherwise it evaluates to the `else` expression.
 
 ## Evaluation semantics
 
