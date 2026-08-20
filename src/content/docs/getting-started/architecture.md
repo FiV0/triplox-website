@@ -88,9 +88,9 @@ communication.
 **Query engine.** Queries are written in [EDN](https://github.com/edn-format/edn) Datalog and execute server-side against the
 covering indexes. See the [query language](/query-language/datalog/) docs for details.
 
-## Differences from Datomic
+## Relationship to Datomic
 
-Triplox is heavily inspired by [Datomic](https://www.datomic.com/), a commercial database whose
+Triplox is heavily inspired by [Datomic](https://www.datomic.com/), a free database whose
 data model (facts called *datoms*), transaction semantics, and Datalog query API Triplox
 closely follows. If you have never used Datomic, you can safely skip this section.
 
@@ -108,16 +108,13 @@ storage across multiple AWS services, DynamoDB for the transaction log, S3 for i
   and EFS as a durable cache. Triplox keeps everything in a single object
   store through [SlateDB](https://github.com/slatedb/slatedb) (with a separate log for now) and
   is not tied to a particular cloud. Be also aware that the way Datomic stores data
-  is likely quite different to the simple indexes of Triplox stores in SlateDB.
+  is likely quite different to the simple indexes Triplox stores in SlateDB.
   Triplox does currently not have any version of immutable trees
   (see [Hitchhiker Trees](https://github.com/datacrypt-project/hitchhiker-tree)). As
   history grows this will create read amplification.
 
-- **Self-hosted and open source.** Datomic Cloud is a managed AWS product. Triplox is open
+- **Self-hosted and open source.** Datomic Cloud is tailored towards AWS. Triplox is open
   source and self-hosted, and should run against any S3-compatible object store.
-
-- **Not feature-for-feature compatible.** Triplox stays close to the Datomic APIs but does not
-  aim for 1-to-1 parity or identical behavior.
 
 ## Deployment
 
