@@ -1,6 +1,6 @@
 ---
 title: Data Model
-description: The Datomic data model.
+description: The Triplox data model.
 ---
 
 Triplox is an Entity-Attribute-Value (EAV) triple store. The database is made up of a set of triples called Datoms. Each Datom declares that some entity (for example, a person)  has a certain attribute (like a name) of a particular value (like "Ada Lovelace"). [^1] An entity might have many attributes. A [schema](/transactions/schema/) defines the valid types and cardinality of attributes. This schema is also stored as triples. The system is self-referential and the only way data is stored in Triplox (also at the meta level) is in form of triples. Consider the following entity of a person.
@@ -146,4 +146,4 @@ TODO
 Link to the appropriate section under transactions.
 
 
-[^1]: Example shamelessly stolen from Jepsen's Datomic report. <https://jepsen.io/analyses/datomic-pro-1.0.7075>
+[^1]: Example adapted from Jepsen’s Datomic report. <https://jepsen.io/analyses/datomic-pro-1.0.7075>
