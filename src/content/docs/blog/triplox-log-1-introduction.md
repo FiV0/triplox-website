@@ -9,7 +9,7 @@ I am working on a Datalog database engine à la [Datomic](https://www.datomic.co
 
 The backbone of the engine is [SlateDB](https://github.com/slatedb/slatedb/), a key-value store on top of object-storage. Think of SlateDB as [RocksDB](https://github.com/facebook/rocksdb) on top of object-storage. Datomic is the main inspiration and the data model, transaction semantics and query API closely follow Datomic.
 
-By making object storage the single source of truth, you get separation of storage and compute. SlateDB has a single writer and many readers architecture and that naturally translates to Triplox. In that sense it's similar to Datomic. Triplox sits more in the traditional client/server camp compared to Datomic where the [peer library](https://docs.datomic.com/operation/peer-server.html) gets embedded into the application code.
+By making object storage the single source of truth, you get separation of storage and compute. SlateDB has a single writer and many readers architecture and that naturally translates to Triplox. In that sense it's similar to Datomic. Triplox sits in the traditional client/server camp where queries run on the server.
 
 The goals of Triplox are roughly the following (in no particular order):
 - Object storage first. In it's final version Triplox should simply need a single S3 bucket for deployment. You will see further down that this is currently not really the case.
