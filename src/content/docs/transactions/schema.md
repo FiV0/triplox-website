@@ -43,12 +43,12 @@ Allowed value types:
 | `:db.type/uuid`      | 128-bit UUID                                                      |
 | `:db.type/bytes`     | Arbitrary binary data                                             |
 | `:db.type/bigint`    | Arbitrary precision integer                                       |
-| `:db.type/vector`    | Ordered collection of heterogenous values                         |
-| `:db.type/map`       | String-keyed map with heterogenous values                         |
+| `:db.type/vector`    | Ordered collection of heterogeneous values                        |
+| `:db.type/map`       | String-keyed map with heterogeneous values                        |
 
 The composite types `vector` and `map` allow the same data types as described above. The recursive
-values have no type checks to them, meaning a attribute of type vector can hold long
-vectors and as well has vectors of strings and doubles. In particular refs are just longs, so
+values have no type checks to them, meaning a attribute of type vector can hold values of type long, strings, doubles
+and nested vectors without schema-level checks. In particular refs are just longs, so
 they will not get typed checked in the transaction pipeline if they sit in composite types.
 In the worst case you end up with dangling references.
 
