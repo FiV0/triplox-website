@@ -9,7 +9,7 @@ The goals of Triplox are roughly the following (in no particular order):
 
 - Object storage first. In it's final version Triplox should simply need a single (or likely two) S3 bucket(s) for deployment. This is currently not the case. See the [Architecture](/getting-started/architecture) section.
 
-- The Datomic data model and API as main inspiration. Datomic is awesome. Let's bring an open source version directly to object-storage that is easily scalable.
+- The Datomic data model and API as main inspiration. Datomic is awesome.
 
 - A Client/Server architecture. We hope that this will open the door to ecosystems outside of the JVM (where Datomic has had it's main success).
 
