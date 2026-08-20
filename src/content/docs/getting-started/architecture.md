@@ -44,7 +44,7 @@ as soon as it picks up the new WALs (Write-Ahead Logs) from object storage.
       ┌───────────────┴───────────┐    ┌─────┴─────┐       ┌─────┴─────┐
       │        Writer Node        │    │ Reader 1  │       │ Reader 2  │
       │   ┌──────────┐            │    │           │       │           │
- ┌────┼─▶│ Indexer  │            │    │           │       │           │
+ ┌────┼──▶│ Indexer  │            │    │           │       │           │
  │    │   └──────────┘            │    │           │       │           │
  │    └───────────────┬───────────┘    └───────────┘       └───────────┘
  │                    │ write
