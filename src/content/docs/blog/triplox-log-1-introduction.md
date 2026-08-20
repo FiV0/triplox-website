@@ -13,7 +13,7 @@ By making object storage the single source of truth, you get separation of stora
 
 The goals of Triplox are roughly the following (in no particular order):
 - Object storage first. In it's final version Triplox should simply need a single S3 bucket for deployment. You will see further down that this is currently not really the case.
-- The Datomic Data model and API as main inspiration. Datomic is awesome. Let's bring it to S3 and make it easily scalable.
+- The Datomic Data model and API as main inspiration. Datomic is awesome. Let's bring it to object-storage and make it easily scalable.
 - A Client/Server architecture. I hope that this will open the door to ecosystems outside of the JVM (where Datomic has had it's main success).
 - Incremental queries à la [DBSP](https://arxiv.org/abs/2203.16684). You should be able to dynamically subscribe and detach from incremental Datalog queries. This is different to [Feldera](https://github.com/feldera/feldera) which compiles a new binary for every query. So incremental queries should be a lot lighter in Triplox. This is the most experimental part of Triplox and will need quite a bit of engineering effort to get right, make fast, and fully support of all features of Datalog (recursive rules being the most tricky part). The idea is to hook into SlateDB's [CDC](https://en.wikipedia.org/wiki/Change_data_capture) and produce new deltas for every WAL entry that comes through.
 
@@ -195,6 +195,6 @@ This gives you a little introduction tour of EDN Datalog. I have not touched rul
 
 There are lots of Triplox parts that I explicitly left out for now. This includes the history aspects of the data model and Rich's [database as a value](https://www.youtube.com/watch?v=D6nYfttnVco) concept, APIs like [pull](https://docs.datomic.com/query/query-pull.html), which allows you to do graph traversals and the [entity API](https://docs.datomic.com/reference/entities.html). I want to focus on transactions and queries in a first Triplox version. There is also lots to be written about incremental Datalog queries. So stay tuned for more updates about Triplox.
 
-[^1]: Example shamelessly stolen from Jepsen's Datomic report. <https://jepsen.io/analyses/datomic-pro-1.0.7075>
+[^1]: Adapted from Jepsen's Datomic report. <https://jepsen.io/analyses/datomic-pro-1.0.7075>
 
-[^2]: Stolen from the Datomic docs: <https://docs.datomic.com/query/query-executing.html#unification>
+[^2]: Adapted from the Datomic docs: <https://docs.datomic.com/query/query-executing.html#unification>
