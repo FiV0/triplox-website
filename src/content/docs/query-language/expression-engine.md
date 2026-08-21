@@ -94,9 +94,10 @@ Notes:
 
 ## Evaluation semantics
 
-- Expressions evaluate against a row's variable bindings. An unbound variable,
-  a type mismatch, or an arithmetic failure (overflow, divide-by-zero) all
-  produce "no result" — the row is excluded from a predicate and produces no
+- Expressions evaluate against a tuple's variable bindings.
+  A type mismatch, or an arithmetic failure (overflow, divide-by-zero) or generally an argument that
+  is nonsensical for a predicate or function all
+  produce "no result". The row is excluded from a predicate and produces no
   binding from a function.
 - Predicate evaluation returns `true` only when the expression yields
   `boolean true`; anything else is treated as `false`.
@@ -105,3 +106,9 @@ Notes:
   [(not (< ?x 10))]
   [(+ (* ?x 2) 10) ?y]
   ```
+
+:::note
+The evaluation of an expression just "silently failing" might be a bit confusing to users and is
+different to most EDN Datalog flavoured engines. We are aware of this and will likely
+consider different error semantics for the expression engine at some point.
+:::
