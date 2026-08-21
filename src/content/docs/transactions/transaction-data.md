@@ -56,14 +56,47 @@ is the same as the two transaction operations
 [:db/add 123 :person/first-name "Ada"]
 [:db/add 123 :person/last-name "Lovelace"]
 ```
-
-
 ### Entity retraction
 
-TODO
+Entity retraction is the way to remove an entity entirely. It results in all currently visible attributes being retracted.
+No part of the of the entity is visible at the new DB value.
+
+```clojure
+[:db/retractEntity 123]
+```
+If the entity also has a `:db.unique/identity` attribute, the entity can also be retracted via a lookup ref. For example
+a social security number.
+```clojure
+[:db/retract [:person/ssn "123-45-6789"]]
+```
+:::note
+Triplox currently does not do recursive or cascading retractions. References to the retracted entity will remain active.
+It is currently the users responsibility to assure consistency in this regard.
+:::
 
 ### Tempids
 
+TODO
+
 ### Lookup refs
 
+TODO
+
 ### Idents
+
+TODO
+
+### Entity erasure
+
+Entity erasure is a way to completely erase any trace of an entity. It removes all versions of an entity from Triplox. Use it with care and seldom. It is for example useful to comply with GDPR Right to Erasure. This is the only operation that has an effect on queries on old DB values.
+
+```clojure
+[:db/erase 123]
+```
+:::note
+Triplox currently does not support entity erasure. The Client APIs will accept these operations, but the indexer will throw and create an aborted transaction entity. I want to spend some time on how erasure should behave and dealt with in incremental queries. As there
+will be no retraction appearing in the SlateDB WAL, some thought needs to be put into how this gets communicated to the incremental
+query circuits.
+
+As with entity retraction, triplox does (currently) not deal with recursive or cascading erasure.
+:::
