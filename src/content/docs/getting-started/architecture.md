@@ -103,7 +103,7 @@ For those coming from Datomic, the main differences are:
   nodes over the network and queries run on the server.
   The remaining points below compare Triplox with Datomic Cloud.
 
-- **Storage substrate.** [Datomic Cloud](https://docs.datomic.com/operation/architecture.html) spreads
+- **Storage.** [Datomic Cloud](https://docs.datomic.com/operation/architecture.html) spreads
 storage across multiple AWS services, DynamoDB for the transaction log, S3 for indexes,
   and EFS as a durable cache. Triplox keeps the indices in single object
   store bucket through [SlateDB](https://github.com/slatedb/slatedb) (with a separate log for now) and
@@ -113,8 +113,8 @@ storage across multiple AWS services, DynamoDB for the transaction log, S3 for i
   (see [Hitchhiker Trees](https://github.com/datacrypt-project/hitchhiker-tree)). As
   history grows this will create read amplification.
 
-- **Self-hosted and open source.** Datomic Cloud is tailored towards AWS. Triplox is open
-  source and self-hosted, and should run against any S3-compatible object store.
+- **Infrastructure** Datomic Cloud is tailored towards AWS. Triplox is open
+  source and aims to be compatible with object store from a range of cloud providers.
 
 ## Deployment
 
