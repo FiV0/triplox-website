@@ -101,7 +101,7 @@ CREATE TABLE enrollments (
   PRIMARY KEY (student_id, course_id)
 );
 ```
-In the Datomic data model the pattern kind of resolves. You simply have the cardinality many attribute `:student/course` of type reference which maps a student to courses. In the following we create the relationship between course and students using
+In the EAV-data model the pattern kind of resolves. You simply have the cardinality many attribute `:student/course` of type reference which maps a student to courses. In the following we create the relationship between course and students using
 [tempids](/transactions/transaction-data/#tempids):
 
 ```clojure
