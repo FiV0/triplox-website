@@ -90,7 +90,7 @@ covering indexes. See the [query language](/query-language/datalog/) docs for de
 
 ## Relationship to Datomic
 
-Triplox is heavily inspired by [Datomic](https://www.datomic.com/), a free database whose
+Triplox is heavily inspired by [Datomic](https://www.datomic.com/), a database whose
 data model (facts called *datoms*), transaction semantics, and Datalog query API Triplox
 closely follows. If you have never used Datomic, you can safely skip this section.
 
@@ -105,8 +105,8 @@ For those coming from Datomic, the main differences are:
 
 - **Storage substrate.** [Datomic Cloud](https://docs.datomic.com/operation/architecture.html) spreads
 storage across multiple AWS services, DynamoDB for the transaction log, S3 for indexes,
-  and EFS as a durable cache. Triplox keeps everything in a single object
-  store through [SlateDB](https://github.com/slatedb/slatedb) (with a separate log for now) and
+  and EFS as a durable cache. Triplox keeps the indices in single object
+  store bucket through [SlateDB](https://github.com/slatedb/slatedb) (with a separate log for now) and
   is not tied to a particular cloud. Be also aware that the way Datomic stores data
   is likely quite different to the simple indexes Triplox stores in SlateDB.
   Triplox does currently not have any version of immutable trees
