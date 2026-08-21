@@ -4,9 +4,8 @@ description: Triplox partitions.
 ---
 
 Entities are assigned to a particular partition. Partitions allow the grouping of entities
-that are loosly related. Tenants are a good example where different partitions make sense. We closely
-follow [Datomic's](https://docs.datomic.com/transactions/partitions.html) partition assignment
-mechanism. The highest 20 bits of entity ids are reserved for partitions. The main point of partitions
+that are loosly related. Tenants are a good example where different partitions make sense.
+The highest 20 bits of entity ids are reserved for partitions. The main point of partitions
 is data locality when joining. Related entities are grouped together and related data is
 fetched together from object storage. Simplifying a lot things, you are likely needing
 less file fetches from object storage when doing an EAV scan for a particular tenant.
@@ -20,4 +19,8 @@ See [transaction model](/transactions/transaction-model/) for what default attri
 a transaction entity holds.
 - A user partition that holds all user defined entities (apart from schema entities). This is the default partition.
 
-Similar to Datomic we plan to add a mechanism for assigning partitions via user transactions. See the [Roadmap](/roadmap/roadmap).
+We plan to add a mechanism for assigning partitions via user transactions. See the [Roadmap](/roadmap/roadmap).
+
+:::note
+This partition assignment schema is very much inspired by Datomic.
+:::

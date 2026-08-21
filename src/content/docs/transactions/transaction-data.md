@@ -3,8 +3,8 @@ title: Transaction Data
 description: Triplox transaction data.
 ---
 
-Transaction data is how data of a transaction is represented in Triplox. Triplox's transaction
-data is closely modelled after [Datomic's transaction data](https://docs.datomic.com/transactions/transaction-data-reference.html).
+Transaction data is how data of a transaction is represented in Triplox.
+Triplox uses transaction-data forms inspired by [Datomic](https://docs.datomic.com/transactions/transaction-data-reference.html).
 It purely concerns the transaction data constructs and not the semantics of a Triplox transaction.
 We will explain every concept via [EDN](https://github.com/edn-format/edn) syntax used
 by the [Clojure client](/apis/clojure/). The Java and Rust client also support

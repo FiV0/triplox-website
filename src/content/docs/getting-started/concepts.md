@@ -4,7 +4,7 @@ description: Some core concepts of Datomic-like systems
 ---
 
 As Triplox is quite different to traditional SQL DBMS systems. This page tries to serve as a pointer for
-people that might not be familiar with concepts quite prevalent in Datomic-like stores.
+people that might not be familiar with concepts quite prevalent in entity-attribute-value flavoured Datalog stores.
 
 ## Datom
 
