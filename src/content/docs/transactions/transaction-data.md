@@ -32,9 +32,9 @@ We currently expect a value for a retraction. A retraction without a value will 
 
 ### Map assertion form
 
-Often when asserting facts about an entity we want to assert more than one fact. Asserting multiple
-facts about the same entity can be achieved via a `map assertion`. The map contains key/value pairs
-corresponding to attribute/value pairs.
+A map assertion lets you assert several facts about the same entity. Each key/value pair represents
+an attribute and its value. A map without `:db/id` creates a new entity. When `:db/id` is present,
+its value identifies the entity to update.
 
 For example asserting facts about a person could be achieved via
 ```clojure
@@ -56,8 +56,8 @@ is the same as the two transaction operations
 ```
 ### Entity retraction
 
-Entity retraction is the way to remove an entity entirely. It results in all currently visible attributes being retracted.
-No part of the entity is visible at the new DB value.
+An entity retraction retracts every currently visible fact whose entity position contains the specified
+entity ID. The entity therefore has no visible attributes in the new database value.
 
 ```clojure
 [:db/retractEntity 123]
@@ -74,10 +74,10 @@ It is currently the user's responsibility to assure consistency in this regard.
 
 ### Tempids
 
-Tempids (short for temporary IDs) are a way to have a reference to entity IDs inside transaction data. As entity IDs only get
-assigned when the transaction gets committed, there is no way to create a relationship in a transaction between two
-entities. Tempids are a way to create this relationship. They are strings in positions where normally
-an entity ID is expected. The following transaction illustrates the creation of two courses (Math and Physics) which
+Entity IDs for new entities are assigned when a transaction commits. Tempids (short for temporary IDs)
+are transaction-local strings that let multiple operations refer to the same new entity before its permanent
+ID is known. They can also be used as the value of reference-typed attributes. The following transaction
+illustrates the creation of two courses (Math and Physics) which
 Alice attends
 ```clojure
 [:db/add "math-course"     :course/title "Mathematics"]
@@ -90,10 +90,10 @@ Alice attends
 In the above, `"math-course"`, `"physics-course"`, and `"alice-id"` are tempids. The course tempids allow later operations
 to refer to the newly created courses, while `"alice-id"` groups several assertions about Alice.
 
-Attributes declared as `:db.unique/identity` participate in upsert resolution. If a given attribute/value pair
-already exists in Triplox, the transaction data is unified with the existing entity. Tempids participate in this
-resolution as well. For example, if `:course/title` is a `:db.unique/identity` attribute and the math course already
-exists, the tempid `"math-course"` resolves to that course's existing entity ID.
+A tempid can resolve to an existing entity instead of creating a new one. This is called an upsert. It happens
+when the transaction asserts a `:db.unique/identity` attribute whose value already belongs to an existing entity.
+For example, if `:course/title` is a `:db.unique/identity` attribute and the math course already exists, the tempid
+`"math-course"` resolves to that course's existing entity ID.
 
 ### Lookup refs
 
