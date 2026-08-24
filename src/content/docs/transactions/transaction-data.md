@@ -92,9 +92,9 @@ Alice attends
 In the above `"math-course"`, `"physics-course"` and `"alice-id"` are tempids. `"alice-id"` is not strictly necessary, but
 there would be no other way to refer to the newly added Math and Physics courses without tempids.
 
-Attributes declared as `:db.unique/identify` participate in upsert resolution. If a given attribute/value pair
+Attributes declared as `:db.unique/identity` participate in upsert resolution. If a given attribute/value pair
 already exists in Triplox, the transaction data is unified with the existing entity. Tempids participate in this
-resolution as well. For example, if `:course/title` is a `:db.unique/identify` attribute and the math course already
+resolution as well. For example, if `:course/title` is a `:db.unique/identity` attribute and the math course already
 exists, the tempid `"math-course"` resolves to that course's existing entity ID.
 
 ### Lookup refs
