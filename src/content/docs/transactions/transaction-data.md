@@ -99,37 +99,36 @@ exists, the tempid `"math-course"` resolves to that course's existing entity ID.
 
 ### Lookup refs
 
-Lookup-refs allow you to identify an entity in a transaction when you don't have the entity id at hand. Often values are uniquely
-identifying an entity. A `:person/email` is a good example. In transaction data this then looks as follows:
+Lookup refs let you identify an existing entity by an attribute/value pair when you don't know its entity ID. The attribute
+must be declared as `:db.unique/identity`, and the attribute/value pair must already exist in Triplox. For example, if
+`:person/email` is a `:db.unique/identity` attribute, you can write:
 ```clojure
 [[:db/add [:person/email "jdoe@example.com"] :person/nickname "JD"]]
 ```
-Lookup-refs can be used in transaction data entity position and ref-typed value position.
+Lookup refs can be used in an operation's entity position or as the value of a reference-typed attribute.
 
 :::note
-We currently don't support lookup-refs in queries.
+We currently don't support lookup refs in queries.
 :::
 
 ### Idents
 
-Idents are a way to reference entities by a name. This name is given by the special attribute `:db/ident`, which you also use
-in [schema](/transactions/schema/) definitions. You can reference entities via ident in entity positions
-and ref-typed value positions. Strictly speaking attributes are also idents and it also currently the only way to identify
-attributes in a query.
+Idents let you reference entities by name. An ident is the value of the special attribute `:db/ident`, which is also used
+in [schema](/transactions/schema/) definitions. In transaction data, idents can be used in the entity position of
+`:db/add` and `:db/retract`, as the value of `:db/id` in a map assertion, and as the value of a reference-typed attribute.
 
-When you submit an schema attribute like the following
+For example, consider the following schema attribute:
 ```clojure
 {:db/ident :team/name
  :db/valueType :db.type/string
  :db/cardinality :db.cardinality/one
  :db/unique :db.unique/identity}
 ```
-you are actually already implicitly using idents in ref-typed value position, because `:db/valueType`, `:db/cardinality`
-and`:db/unique` a ref-typed attributes and `db.type/string`, `db:cardinality/one` and `:db.unique/identity` are idents.
+Because `:db/valueType`, `:db/cardinality`, and `:db/unique` are reference-typed attributes, their values
+`:db.type/string`, `:db.cardinality/one`, and `:db.unique/identity` are themselves idents.
 
 :::note
-Note that in certain cases entity identification via idents might actually not work in Triplox, because we currently have not
-added the ident resolving in all parts of the transaction pipeline as the typing becomes quite extensive.
+Idents are not currently supported as targets of `:db/retractEntity`.
 :::
 
 ### Entity erasure
