@@ -76,11 +76,28 @@ It is currently the users responsibility to assure consistency in this regard.
 
 ### Tempids
 
-TODO
+Tempids (short for temporary ids) are a way to have a reference to entity ids inside transaction data. As entity ids only get
+assigned when the transaction gets committed, there is no way to create a relationship in a transaction between two
+entities . Tempids are a way to create this relationship. They are strings in positions where normally
+a entity id is expected. The following transaction illustrates the creation of two courses (Math and Physics) which
+Alice attends
+```clojure
+[:db/add "math-course"     :course/title "Mathematics"]
+[:db/add "physics-course"  :course/title "Physics"]
+
+[:db/add "alice-id" :student/name "Alice"]
+[:db/add "alice-id" :student/course "math-course"]
+[:db/add "alice-id" :student/course "physics-course"]
+```
+In the above `"math-course"`, `"physics-course"` and `"alice-id"` are tempids. `"alice-id"` is not strictly necessary, but
+there would be no other way to refer to the newly added Math and Physics courses without tempids.
+
+Attributes declared as `:db.unique/identify` participate in upsert resolution. If a given attribute/value pair
+already exists in Triplox, the transaction data is unified with the existing entity. Tempids participate in this
+resolution as well. For example, if `:course/title` is a `:db.unique/identify` attribute and the math course already
+exists, the tempid `"math-course"` resolves to that course's existing entity ID.
 
 ### Lookup refs
-
-TODO
 
 ### Idents
 
