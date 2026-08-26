@@ -38,7 +38,7 @@ The incremental version of the above query would therefore return the following 
 A result tuple of an incremental query is made up of pair. The first part being the usual result tuple and the second one an integer (sometimes called `:db/diff`) which specifies the change in the corresponding static query result set. For the above `["Ada Lovelace" "12 St. James's Square"]` left the result set and
 `["Ada Lovelace" "Buckingham Palace"]` has been added to the result set.
 
-The above shows an incremental query with some basic unification of variables.
+The example demonstrates some basic variable unification in an incremental query.
 In Triplox's final version incremental queries will support the same
 feature set as [standard queries](/query-language/datalog). This means Triplox deals with
 the incremental evaluation of `or`/`or-join`, `and`, `not`/`not-join`, predicates and function evaluation.
