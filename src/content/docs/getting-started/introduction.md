@@ -6,7 +6,7 @@ description: Introduction to Triplox.
 
 Triplox is an object-storage-native Datalog database for system-of-record applications. Triplox is backed by [SlateDB](https://github.com/slatedb/slatedb/), a key-value store itself backed by object-storage. It is single writer and many readers. The database is a set of facts called Datoms. Transactions are totally ordered via a log and provide ACID guarantees. The name Triplox is portmanteau of triple and blocks.
 
-The goals of Triplox are roughly the following (in no particular order):
+The ideas of Triplox are roughly the following (in no particular order):
 
 - Object storage first. In it's final version Triplox should simply need a single (or likely two) S3 bucket(s) for deployment. This is currently not the case. See the [Architecture](/getting-started/architecture) section.
 

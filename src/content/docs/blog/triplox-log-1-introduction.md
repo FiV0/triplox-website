@@ -11,7 +11,7 @@ The backbone of the engine is [SlateDB](https://github.com/slatedb/slatedb/), a 
 
 By making object storage the single source of truth, you get separation of storage and compute. SlateDB has a single writer and many readers architecture and that naturally translates to Triplox. In that sense it's similar to Datomic. Triplox sits in the traditional client/server camp where queries run on the server.
 
-The goals of Triplox are roughly the following (in no particular order):
+The ideas of Triplox are roughly the following (in no particular order):
 - Object storage first. In it's final version Triplox should simply need a single S3 bucket for deployment. You will see further down that this is currently not really the case.
 - The Datomic Data model and API as main inspiration. Datomic is awesome.
 - A Client/Server architecture. I hope that this will open the door to ecosystems outside of the JVM (where Datomic has had it's main success).
