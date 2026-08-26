@@ -114,7 +114,7 @@ storage across multiple AWS services, DynamoDB for the transaction log, S3 for i
   history grows this will create read amplification.
 
 - **Infrastructure** Datomic Cloud is tailored towards AWS. Triplox is open
-  source and aims to be compatible with object store from a range of cloud providers.
+  source and aims to be compatible with object storage from a range of cloud providers.
 
 ## Deployment
 
