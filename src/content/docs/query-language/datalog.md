@@ -124,8 +124,8 @@ This finds us people older than 30 and their birth year. The second where clause
 A query without aggregates simply projects the result set from the `:where` clause to
 the variables appearing in the `:find` clause.
 
-Every non-aggregate variable in `:find` is an implicit grouping key over which the aggregate(s)
-are created. If `:find` contains only aggregates, all matching tuples form a single group.
+Results are grouped by every non-aggregate variable in `:find`. Aggregates are then calculated
+separately for each group. If `:find` contains only aggregates, all matching tuples form a single group.
 
 ```clojure
 '{:find [?residence (count ?person) (avg ?age)]
@@ -135,14 +135,14 @@ are created. If `:find` contains only aggregates, all matching tuples form a sin
 
 The above query calculates the number of people and their average age living at a particular residence.
 
-| Aggregate       | Syntax                  | Argument types                                  | Result                         |
-| --------------- | ----------------------- | ----------------------------------------------- | ------------------------------ |
-| `count`         | `(count ?x)`            | any                                             | `long`                         |
-| `count-distinct` | `(count-distinct ?x)`  | any                                             | `long`                         |
-| `sum`           | `(sum ?x)`              | `long`, `bigint`, `float`, `double`             | `long`/`double`                |
-| `avg`           | `(avg ?x)`              | `long`, `bigint`, `float`, `double`             | `double`                       |
-| `min`           | `(min ?x)`              | numeric, `string`, `boolean`, `instant`         | minimum input value            |
-| `max`           | `(max ?x)`              | numeric, `string`, `boolean`, `instant`         | maximum input value            |
+| Aggregate        | Description                                  | Argument types                          |
+| ---------------- | -------------------------------------------- | --------------------------------------- |
+| `count`          | Counts all values in the group.              | any                                     |
+| `count-distinct` | Counts the distinct values in the group.     | any                                     |
+| `sum`            | Adds all values in the group.                | `long`, `bigint`, `float`, `double`     |
+| `avg`            | Calculates the arithmetic mean of the group. | `long`, `bigint`, `float`, `double`     |
+| `min`            | Returns the smallest value in the group.     | numeric, `string`, `boolean`, `instant` |
+| `max`            | Returns the largest value in the group.      | numeric, `string`, `boolean`, `instant` |
 
 
 For `min` and `max`, all values in a group must be comparable. Numeric types are comparable, other types can not be mixed.
