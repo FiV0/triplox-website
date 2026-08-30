@@ -40,35 +40,6 @@ Constants are used to constrain patterns to facts matching these constants. In t
 example we were only interested in people that had a name attribute and had their
 residence at Buckingham Palace.
 
-## Aggregates
-
-Aggregates summarize the rows matched by a query. They appear in the `:find`
-clause and take exactly one variable that is bound by a `:where` clause:
-
-```clojure
-'{:find [?residence (count ?person) (avg ?age)]
-  :where [[?person :person/residence ?residence]
-          [?person :person/age ?age]]}
-```
-
-Every non-aggregate variable in `:find` is an implicit grouping key. The query
-above therefore returns one row per residence. If `:find` contains only
-aggregates, all matching rows form a single group.
-
-| Aggregate       | Syntax                  | Argument types                                  | Result                         |
-| --------------- | ----------------------- | ----------------------------------------------- | ------------------------------ |
-| `count`         | `(count ?x)`            | any                                             | `long`                         |
-| `count-distinct` | `(count-distinct ?x)`  | any                                             | `long`                         |
-| `sum`           | `(sum ?x)`              | `long`, `bigint`, `float`, `double`             | `long`/`double`                |
-| `avg`           | `(avg ?x)`              | `long`, `bigint`, `float`, `double`             | `double`                       |
-| `min`           | `(min ?x)`              | numeric, `string`, `boolean`, `instant`         | minimum input value            |
-| `max`           | `(max ?x)`              | numeric, `string`, `boolean`, `instant`         | maximum input value            |
-
-`count` counts matching rows, including rows whose argument values repeat.
-Use `count-distinct` to count unique argument values. For `min` and `max`, all
-values in a group must be comparable; numeric types can be compared with one
-another, but other types cannot be mixed.
-
 ## The where clauses
 
 The patterns appearing in the `where` restrict the datalog query to the data we are interested in.
@@ -147,6 +118,34 @@ Functions are used to create new join variables (bidiretional functions ?).
          [(- 2026 ?age) ?birth-year]]}
 ```
 This finds us people older than 30 and their birth year. The second where clause is a predicate filter and the final clause creates the birth year variable.
+
+## Aggregates
+
+A query without aggregates simply projects the result set from the `:where` clause to
+the variables appearing in the `:find` clause.
+
+Every non-aggregate variable in `:find` is an implicit grouping key over which the aggregate(s)
+are created. If `:find` contains only aggregates, all matching tuples form a single group.
+
+```clojure
+'{:find [?residence (count ?person) (avg ?age)]
+  :where [[?person :person/residence ?residence]
+          [?person :person/age ?age]]}
+```
+
+The above query calculates the number of people and their average age living at a particular residence.
+
+| Aggregate       | Syntax                  | Argument types                                  | Result                         |
+| --------------- | ----------------------- | ----------------------------------------------- | ------------------------------ |
+| `count`         | `(count ?x)`            | any                                             | `long`                         |
+| `count-distinct` | `(count-distinct ?x)`  | any                                             | `long`                         |
+| `sum`           | `(sum ?x)`              | `long`, `bigint`, `float`, `double`             | `long`/`double`                |
+| `avg`           | `(avg ?x)`              | `long`, `bigint`, `float`, `double`             | `double`                       |
+| `min`           | `(min ?x)`              | numeric, `string`, `boolean`, `instant`         | minimum input value            |
+| `max`           | `(max ?x)`              | numeric, `string`, `boolean`, `instant`         | maximum input value            |
+
+
+For `min` and `max`, all values in a group must be comparable. Numeric types are comparable, other types can not be mixed.
 
 ### Rules
 
