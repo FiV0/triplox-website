@@ -147,6 +147,6 @@ The above query calculates the number of people and their average age living at 
 
 For `min` and `max`, all values in a group must be comparable. Numeric types are comparable, other types can not be mixed.
 
-### Rules
+## Rules
 
 TODO
