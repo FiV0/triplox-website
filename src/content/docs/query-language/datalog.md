@@ -135,14 +135,14 @@ separately for each group. If `:find` contains only aggregates, all matching tup
 
 The above query calculates the number of people and their average age living at a particular residence.
 
-| Aggregate        | Description                                  | Argument types                          |
-| ---------------- | -------------------------------------------- | --------------------------------------- |
-| `count`          | Counts all values in the group.              | any                                     |
-| `count-distinct` | Counts the distinct values in the group.     | any                                     |
-| `sum`            | Adds all values in the group.                | `long`, `bigint`, `float`, `double`     |
-| `avg`            | Calculates the arithmetic mean of the group. | `long`, `bigint`, `float`, `double`     |
-| `min`            | Returns the smallest value in the group.     | numeric, `string`, `boolean`, `instant` |
-| `max`            | Returns the largest value in the group.      | numeric, `string`, `boolean`, `instant` |
+| Aggregate        | Argument types                          | Description                                  |
+| ---------------- | --------------------------------------- | -------------------------------------------- |
+| `count`          | any                                     | Counts all values in the group.              |
+| `count-distinct` | any                                     | Counts the distinct values in the group.     |
+| `sum`            | `long`, `bigint`, `float`, `double`     | Adds all values in the group.                |
+| `avg`            | `long`, `bigint`, `float`, `double`     | Calculates the arithmetic mean of the group. |
+| `min`            | numeric, `string`, `boolean`, `instant` | Returns the smallest value in the group.     |
+| `max`            | numeric, `string`, `boolean`, `instant` | Returns the largest value in the group.      |
 
 
 For `min` and `max`, all values in a group must be comparable. Numeric types are comparable, other types can not be mixed.
