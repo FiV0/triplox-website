@@ -3,9 +3,11 @@ import { defineConfig } from 'astro/config';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 import starlightBlog from 'starlight-blog';
+import starlightLlmsTxt from 'starlight-llms-txt';
 import starlightThemeBlack from 'starlight-theme-black';
 
 export default defineConfig({
+  site: 'https://triplox.xyz',
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],
@@ -53,6 +55,7 @@ export default defineConfig({
           footerText: '',
         }),
         starlightBlog({ navigation: 'none' }),
+        starlightLlmsTxt(),
       ],
       sidebar: [
         {
