@@ -6,7 +6,7 @@ description: Incremental queries in Triplox.
 **🚧 Incremental queries are the most experimental part of Triplox. There will likely be issues about the non-happy paths and
 they need more testing under heavy workloads. They are under active development. 🚧**
 
-An incremental query delivers a stream of changes between two subsequent database values. A standard [query](/query-language/overview/) delivers a result set at a given point in time $t$. Let us call the database at that time $DB_t$. A transaction creates a new database $DB_{t+1}$. An incremental query gives you the changes of the static query between $DB_t$ and $DB_{t+1}$ from a given $t$ onwards (this is sometimes written as $\Delta DB$).
+An incremental query delivers a stream of changes between two subsequent database values. A standard [query](/query-language/overview/) delivers a result set at a given point in time $t$. Let us call the database at that time $DB_t$. A transaction creates a new database $DB_{t+1}$. An incremental query gives you the changes of the one-time query between $DB_t$ and $DB_{t+1}$ from a given $t$ onwards (this is sometimes written as $\Delta DB$).
 
 Let's say you query for the name and the residence of people:
 
@@ -15,7 +15,7 @@ Let's say you query for the name and the residence of people:
   :where [[?p :person/name ?name]
           [?p :person/residence ?residence]]}
 ```
-A static result for a given $t$ would be
+A standard result for a given $t$ would be
 ```clojure
 [["Ada Lovelace" "12 St. James's Square"]
  ["Alan Turing" "Bletchley Park"]]
@@ -35,7 +35,7 @@ The incremental version of the above query would therefore return the following 
 [[["Ada Lovelace" "12 St. James's Square"] -1]
  [["Ada Lovelace" "Buckingham Palace"] 1]]
 ```
-A result tuple of an incremental query is made up of pair. The first part being the usual result tuple and the second one an integer (sometimes called `:db/diff`) which specifies the change in the corresponding static query result set. For the above `["Ada Lovelace" "12 St. James's Square"]` left the result set and
+A result tuple of an incremental query is made up of pair. The first part being the usual result tuple and the second one an integer (sometimes called `:db/diff`) which specifies the change in the corresponding standard query result set. For the above `["Ada Lovelace" "12 St. James's Square"]` left the result set and
 `["Ada Lovelace" "Buckingham Palace"]` has been added to the result set.
 
 The example demonstrates some basic variable unification in an incremental query.
