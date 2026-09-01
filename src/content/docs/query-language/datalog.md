@@ -119,6 +119,37 @@ Functions are used to create new join variables (bidiretional functions ?).
 ```
 This finds us people older than 30 and their birth year. The second where clause is a predicate filter and the final clause creates the birth year variable.
 
+## Ordering and limit
+
+`:limit` takes a positive integer and caps the number of result tuples.
+
+`:order` takes a vector of order clauses, each of which is itself a vector wrapping a
+variable from the `:find` clause. Note the double brackets: `:order [[?name]]`, not
+`:order [?name]`.
+
+```clojure
+'{:find [?name ?age]
+  :where [[?p :person/name ?name]
+          [?p :person/age ?age]]
+  :order [[?name]]}
+```
+
+The direction defaults to ascending and can be given explicitly with `:asc` or `:desc`.
+Several order clauses are applied left to right.
+
+```clojure
+'{:find [?name ?age]
+  :where [[?p :person/name ?name]
+          [?p :person/age ?age]]
+  :order [[?age :desc] [?name :asc]]
+  :limit 10}
+```
+
+:::note
+Limit and order are not supported by incremental queries, as they only really
+make sense in the context of a whole result set.
+:::
+
 ## Aggregates
 
 A query without aggregates simply projects the result set from the `:where` clause to
