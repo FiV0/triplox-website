@@ -3,16 +3,19 @@ title: Rust API
 description: The Triplox Rust client.
 ---
 
-The Triplox Rust client is published on [crates.io](https://crates.io/crates/triplox).
+The Triplox Rust client is published on [crates.io](https://crates.io/crates/triplox-client) as `triplox-client`.
 The full API reference is available at [docs.rs](https://docs.rs/triplox-client/latest/triplox_client/).
 
 ## Installation
 
-Add the dependency to your `Cargo.toml`:
+Add the following dependencies to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-triplox = "0.1.0-alpha.4"
+triplox-client = "0.1.0-alpha.8"
+edn = { package = "triplox-edn", version = "0.1.0-alpha.8" }
+anyhow = "1.0"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 
 The client is async, so you'll also need an async runtime such as [`tokio`](https://crates.io/crates/tokio).
@@ -26,12 +29,12 @@ You will need a running Triplox server. See the [quick start](/getting-started/q
 use anyhow::Result;
 use edn::kw;
 use edn::Keyword;
-use triplox::client::ClientNode;
-use triplox::node::{Database, QueryNode, SubmitNode, TransactionResult};
-use triplox::ops::{DataType, TxOp};
+use triplox_client::client::ClientNode;
+use triplox_client::node::{Database, QueryNode, SubmitNode};
+use triplox_client::ops::{DataType, TxOp};
+use triplox_client::transaction::TransactionResult;
 
 /// Build a schema attribute definition as a Put document.
-/// This mirrors the internal `plain_schema_attribute` helper.
 fn schema_attribute(name: &str, value_type: &str) -> TxOp {
     TxOp::put([
         (kw!(:db/ident), DataType::Keyword(Keyword::plain(name))),
@@ -52,9 +55,8 @@ async fn main() -> Result<()> {
         schema_attribute("name", "string"),
         schema_attribute("age", "long"),
     ];
-    let result = node.execute_tx(schema_ops).await?;
-    match &result {
-        TransactionResult::TxCommited(tx_key) => {
+    match node.execute_tx(schema_ops).await? {
+        TransactionResult::TxCommitted(tx_key) => {
             println!("Schema defined (tx_id={}).", tx_key.tx_id);
         }
         TransactionResult::TxAborted(_, err) => {
@@ -73,9 +75,8 @@ async fn main() -> Result<()> {
             (kw!(:age), 25_i64.into()),
         ]),
     ];
-    let result = node.execute_tx(data_ops).await?;
-    match &result {
-        TransactionResult::TxCommited(tx_key) => {
+    match node.execute_tx(data_ops).await? {
+        TransactionResult::TxCommitted(tx_key) => {
             println!("Data inserted (tx_id={}).", tx_key.tx_id);
         }
         TransactionResult::TxAborted(_, err) => {
@@ -85,7 +86,7 @@ async fn main() -> Result<()> {
 
     // 3. Open a DB value and query
     let db = node.db().await?;
-    println!("Opened DB value (tx_eid={}).", db.tx_basis().tx_eid);
+    println!("Opened DB value (tx_id={}).", db.tx_key().tx_id);
 
     let rows = db
         .query(r#"{:find [?e ?name ?age]
