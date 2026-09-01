@@ -9,7 +9,7 @@ The main query language of Triplox is a variant of [Datalog](https://en.wikipedi
   :where [[?p :person/name ?name]
           [?p :person/residence "Buckingham Palace"]]
   :limit 100 ;; optional
-  :order-by [?name]}
+  :order [[?name]]} ;; optional
 ```
 ### Variables, Constants and Unification
 
